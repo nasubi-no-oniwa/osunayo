@@ -322,7 +322,7 @@ function makeMan(trunkC,hairC){
 const MAN=makeMan(0xd8352a,0x2a1a10),ME=makeMan(0x2a6ad8,0x5a3a1a);
 // ===== テレビの収録スタジオ（観客・ガヤ芸人・スタッフ・カンペ・電飾） =====
 const G1=makeMan(0xffd23a,0x1a1a1a),G2=makeMan(0x1aa34a,0x6a3a1a);
-const GP=[{m:G1,x:-1.05,z:1.5,yaw:-.49},{m:G2,x:1.05,z:1.5,yaw:.49}];
+const GP=[{m:G1,x:-1.4,z:1.2,yaw:-.75},{m:G2,x:1.4,z:1.2,yaw:.75}];
 S3.add(mesh(GEO.box,STD(0x2b1f55),.2,9,15,-8.3,4.5,-3));
 const onair=new THREE.Mesh(new THREE.PlaneGeometry(2.2,.75),new THREE.MeshBasicMaterial({map:txTex(['ON AIR'],320,110,'#d01818','#ffffff','900 74px system-ui,sans-serif')}));onair.position.set(-8.18,4.3,-.6);onair.rotation.y=Math.PI/2;S3.add(onair);
 for(const z of [-2.6,1.8]){S3.add(mesh(GEO.box,STD(0x3a3a44),13,.18,.18,0,7.7,z));for(let x=-5.4;x<=5.41;x+=1.8){const c=mesh(GEO.cyl,STD(0x1a1a1e),.16,.34,.16,x,7.45,z);c.rotation.x=z<0?-.5:.5;S3.add(c);}}
@@ -503,7 +503,7 @@ function scene(s,t,T){const o=scene0(s,t,T);o.tel=null;o.wipe=false;o.kp='def';o
   else if(k==='bored'){if(t>1.9&&t<3.0)o.tel=tx('tel_bored1');else if(t>=3.0)o.tel=tx('tel_bored2');o.kp=t>1.6?'bored':'wrap';if(t>2.2&&t<3.4)o.bg=[0,ga[0]];}}
  if(o.bg&&!o.bg[1])o.bg=null;
  {const hb=ty==='out'&&k==='dive'&&t<.66;for(const m of BOOMV)m.visible=!hb;}
- gayaPose(T);setKanpe(o.kp);return o;}
+ gayaPose(T);{const fv=cam.position.z>.6;G1.g.visible=G2.g.visible=!fv;}setKanpe(o.kp);return o;}
 function scene0(s,t,T){
  const o={bm:null,bp:null,angry:false,big:null,dark:0,say:s.say||0};
  rest(MAN);rest(ME);ME.g.visible=false;hands.visible=false;hands.position.z=0;
