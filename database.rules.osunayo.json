@@ -1,0 +1,54 @@
+{
+  "g0": {
+    ".read": true,
+    "$uid": {
+      ".write": "auth != null && auth.uid === $uid && ((!data.exists() && newData.exists() && true) || (!newData.exists() && (!data.exists() || false)))",
+      ".validate": "newData.hasChildren(['t'])",
+      "t": {
+        ".validate": "newData.val() === now"
+      },
+      "$other": {
+        ".validate": false
+      }
+    }
+  },
+  "g1": {
+    ".read": true,
+    "$uid": {
+      ".write": "auth != null && auth.uid === $uid && ((!data.exists() && newData.exists() && !newData.parent().parent().child('g0/'+$uid).exists()) || (!newData.exists() && (!data.exists() || newData.parent().parent().child('g0/'+$uid).exists())))",
+      ".validate": "newData.hasChildren(['t'])",
+      "t": {
+        ".validate": "newData.val() === now"
+      },
+      "$other": {
+        ".validate": false
+      }
+    }
+  },
+  "g2": {
+    ".read": true,
+    "$uid": {
+      ".write": "auth != null && auth.uid === $uid && ((!data.exists() && newData.exists() && !newData.parent().parent().child('g0/'+$uid).exists() && !newData.parent().parent().child('g1/'+$uid).exists()) || (!newData.exists() && (!data.exists() || newData.parent().parent().child('g0/'+$uid).exists() || newData.parent().parent().child('g1/'+$uid).exists())))",
+      ".validate": "newData.hasChildren(['t'])",
+      "t": {
+        ".validate": "newData.val() === now"
+      },
+      "$other": {
+        ".validate": false
+      }
+    }
+  },
+  "g3": {
+    ".read": true,
+    "$uid": {
+      ".write": "auth != null && auth.uid === $uid && ((!data.exists() && newData.exists() && !newData.parent().parent().child('g0/'+$uid).exists() && !newData.parent().parent().child('g1/'+$uid).exists() && !newData.parent().parent().child('g2/'+$uid).exists()) || (!newData.exists() && (!data.exists() || newData.parent().parent().child('g0/'+$uid).exists() || newData.parent().parent().child('g1/'+$uid).exists() || newData.parent().parent().child('g2/'+$uid).exists())))",
+      ".validate": "newData.hasChildren(['t'])",
+      "t": {
+        ".validate": "newData.val() === now"
+      },
+      "$other": {
+        ".validate": false
+      }
+    }
+  }
+}
