@@ -11,9 +11,9 @@
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
-<title>押すなよ</title>
+<title>空気を読むゲーム</title>
 <meta name="description" content="目の前に背中。その先は熱湯。「押すなよ」と言われたら、どうする？">
-<meta property="og:title" content="押すなよ">
+<meta property="og:title" content="空気を読むゲーム">
 <meta property="og:description" content="目の前に背中。その先は熱湯。「押すなよ」と言われたら、どうする？">
 <meta property="og:image" content="https://nasubi-no-oniwa.github.io/osunayo/ogp.png">
 <meta property="og:url" content="https://nasubi-no-oniwa.github.io/osunayo/">
@@ -54,7 +54,7 @@ html,body{height:100%;margin:0;background:#2a1a4a;color:var(--ink);font-family:"
 .panel{position:fixed;inset:0;z-index:10;display:flex;align-items:center;justify-content:center;padding:calc(env(safe-area-inset-top,0px) + 14px) 14px calc(env(safe-area-inset-bottom,0px) + 14px);overflow:auto;touch-action:pan-y}
 .card{width:100%;max-width:400px;background:var(--card);border:4px solid #1d1d1d;border-radius:22px;padding:18px 16px;box-shadow:0 6px 0 #0006;text-align:center;margin:auto}
 #title{background:linear-gradient(#0000 40%,#2a1a4acc)}
-#title h1{margin:0 0 6px;font-size:52px;line-height:1;color:var(--red);text-shadow:3px 3px 0 #1d1d1d;-webkit-text-stroke:1px #1d1d1d}
+#title h1{margin:0 0 6px;font-size:clamp(30px,10vw,44px);line-height:1;color:var(--red);text-shadow:3px 3px 0 #1d1d1d;-webkit-text-stroke:1px #1d1d1d}
 #title h1 small{display:block;font-size:16px;color:#1d1d1d;text-shadow:none;-webkit-text-stroke:0;margin-top:8px}
 .how{font-size:15px;line-height:1.65;margin:10px 0 14px}
 .btn{display:block;width:100%;border:3px solid #1d1d1d;border-radius:14px;background:#fff;font:900 18px "Hiragino Maru Gothic ProN",system-ui,sans-serif;padding:12px;margin:8px 0;box-shadow:0 4px 0 #1d1d1d;color:#1d1d1d}
@@ -136,7 +136,7 @@ const env=(t,a,b,ri=.2,fa=.25)=>t<a||t>b?0:Math.min(sm((t-a)/ri),sm((b-t)/fa));
 
 // ===== ことば =====
 const TX={
-ja:{tTitle:'押すなよ<small>…絶対に押すなよ</small>',hud:'押すなよ',how:'目の前に背中。その先は熱湯。<br>「押すなよ」と言われたら、どうする？',start:'はじめる',skip:'スキップ ▶▶',push:'押す',no:'押さない',
+ja:{tTitle:'空気を読むゲーム<small>押すなよ…絶対に押すなよ</small>',hud:'空気を読むゲーム',how:'目の前に背中。その先は熱湯。<br>「押すなよ」と言われたら、どうする？',start:'はじめる',skip:'スキップ ▶▶',push:'押す',no:'押さない',
  L:['','押すなよ','押すなよ！','絶対に押すなよ！','押すなよ','押すなよ…？','押すなよ！（チラッ）','…押すなよ','押すなって…','なあ…押すなよ？','押すなよ…（最後だぞ）'],
  pushy1:'押せよ！！',pushy2:'…次は押せよな',early:'押すなよって言ったじゃねーか！',late:'そこじゃない！',clear:'わかってるじゃねーか！',both:'お前も入るんかい！',dive:'お前が入るんかい！！',dive2:'…最高だよ、お前',bored:'…お前は、しょうもない',
  hot:['熱っ！','熱っ！熱っ！','あっつ！！'],meHot:['あっつ！','熱っ！'],bigClear:'お見事！',bigBoth:'まあまあ！',bigDive:'最高！',
@@ -145,8 +145,8 @@ ja:{tTitle:'押すなよ<small>…絶対に押すなよ</small>',hud:'押すな�
  head_early:'押してしまった…',head_clear:'お約束、成立！',head_late:'押すのが遅すぎた…',head_both:'一緒に落ちた！',head_dive:'自分が飛び込んだ！',head_bored:'押さなかった…',
  cntHead:'みんなの称号',people:'{n}人',me:'あなた',loading:'読み込み中…',cerr:'人数を読み込めませんでした',up:'称号が上がった！',
  again:'もう一回',video:'動画をつくる',xpost:'Xに投稿',top:'タイトルへ',making:'動画をつくっています…',share:'動画を共有',save:'動画を保存',back:'もどる',vfail:'この端末では動画をつくれませんでした',vmade:'できました',shareHint:'保存した動画を、Xの投稿に貼ってね',
- post:'「押すなよ」で、{line}\n称号「{g}」',tags:'#押すなよ',home:'なすびのお庭'},
-en:{tTitle:'Don’t Push Me<small>…seriously, DON’T</small>',hud:'Don’t Push Me',how:'A bare back in front of you. Boiling water beyond.<br>He says “Don’t push me.” What do you do?',start:'Start',skip:'Skip ▶▶',push:'PUSH',no:'DON’T',
+ post:'空気を読むゲームで、{line}\n称号「{g}」',tags:'#空気を読むゲーム',home:'なすびのお庭'},
+en:{tTitle:'Read the Room<small>“Don’t push me… seriously, DON’T”</small>',hud:'Read the Room',how:'A bare back in front of you. Boiling water beyond.<br>He says “Don’t push me.” What do you do?',start:'Start',skip:'Skip ▶▶',push:'PUSH',no:'DON’T',
  L:['','Don’t push me','Don’t push me!','Do NOT push me!','Don’t push me','Don’t push me…?','Don’t push me! (peek)','…Don’t push me','I said don’t…','Hey… don’t push me?','Don’t push me… (last chance)'],
  pushy1:'PUSH ME ALREADY!!',pushy2:'…Push me next time, OK?',early:'I SAID DON’T PUSH!',late:'Not NOW!',clear:'You get it!',both:'Why are YOU in here too?!',dive:'YOU jumped in?!',dive2:'…You’re a genius',bored:'…You’re no fun.',
  hot:['HOT!','HOT! HOT!','OW OW OW!'],meHot:['HOT!','OUCH!'],bigClear:'Bravo!',bigBoth:'Not bad!',bigDive:'LEGEND!',
@@ -155,8 +155,8 @@ en:{tTitle:'Don’t Push Me<small>…seriously, DON’T</small>',hud:'Don’t Pu
  head_early:'You pushed…',head_clear:'Classic gag, nailed!',head_late:'Too late…',head_both:'Fell in together!',head_dive:'You jumped in!',head_bored:'Never pushed…',
  cntHead:'Everyone’s titles',people:'{n}',me:'you',loading:'Loading…',cerr:'Could not load',up:'Title upgraded!',
  again:'Again',video:'Make a video',xpost:'Post on X',top:'Title',making:'Making the video…',share:'Share video',save:'Save video',back:'Back',vfail:'This device can’t make videos',vmade:'Done',shareHint:'Attach the saved video to your post on X',
- post:'Don’t Push Me: {line}\nTitle: “{g}”',tags:'#押すなよ',home:'Nasubi no Oniwa'},
-zh:{tTitle:'不要推喔<small>…絕對不要推喔</small>',hud:'不要推喔',how:'眼前是一個背影。前面是滾燙的熱水。<br>他說「不要推喔」，你會怎麼做？',start:'開始',skip:'跳過 ▶▶',push:'推',no:'不推',
+ post:'Read the Room: {line}\nTitle: “{g}”',tags:'#空気を読むゲーム',home:'Nasubi no Oniwa'},
+zh:{tTitle:'讀空氣遊戲<small>不要推喔…絕對不要推喔</small>',hud:'讀空氣遊戲',how:'眼前是一個背影。前面是滾燙的熱水。<br>他說「不要推喔」，你會怎麼做？',start:'開始',skip:'跳過 ▶▶',push:'推',no:'不推',
  L:['','不要推喔','不要推喔！','絕對不要推喔！','不要推喔','不要推喔…？','不要推喔！（偷看）','…不要推喔','就說不要推…','欸…不要推喔？','不要推喔…（最後一次了）'],
  pushy1:'快推啊！！',pushy2:'…下次要推喔',early:'我不是說不要推嗎！',late:'不是現在啦！',clear:'你很懂嘛！',both:'你也一起下來喔！',dive:'你自己跳下去喔！？',dive2:'…你太強了',bored:'…你真無聊',
  hot:['好燙！','好燙！好燙！','燙死了！'],meHot:['好燙！','燙！'],bigClear:'漂亮！',bigBoth:'還可以！',bigDive:'神！',
@@ -165,8 +165,8 @@ zh:{tTitle:'不要推喔<small>…絕對不要推喔</small>',hud:'不要推喔'
  head_early:'推下去了…',head_clear:'經典成立！',head_late:'推得太晚了…',head_both:'一起掉下去！',head_dive:'自己跳下去！',head_bored:'沒有推…',
  cntHead:'大家的稱號',people:'{n}人',me:'你',loading:'讀取中…',cerr:'無法讀取人數',up:'稱號升級了！',
  again:'再一次',video:'製作影片',xpost:'發到X',top:'回標題',making:'影片製作中…',share:'分享影片',save:'儲存影片',back:'返回',vfail:'這個裝置無法製作影片',vmade:'完成了',shareHint:'把儲存的影片貼到X的貼文裡吧',
- post:'不要推喔：{line}\n稱號「{g}」',tags:'#押すなよ',home:'Nasubi no Oniwa'},
-ko:{tTitle:'밀지 마<small>…절대 밀지 마</small>',hud:'밀지 마',how:'눈앞에 등이 있다. 그 너머는 펄펄 끓는 물.<br>“밀지 마”라고 하면, 어떻게 할래?',start:'시작',skip:'건너뛰기 ▶▶',push:'민다',no:'안 민다',
+ post:'讀空氣遊戲：{line}\n稱號「{g}」',tags:'#空気を読むゲーム',home:'Nasubi no Oniwa'},
+ko:{tTitle:'눈치 보는 게임<small>밀지 마… 절대 밀지 마</small>',hud:'눈치 보는 게임',how:'눈앞에 등이 있다. 그 너머는 펄펄 끓는 물.<br>“밀지 마”라고 하면, 어떻게 할래?',start:'시작',skip:'건너뛰기 ▶▶',push:'민다',no:'안 민다',
  L:['','밀지 마','밀지 마!','절대 밀지 마!','밀지 마','밀지 마…?','밀지 마! (힐끔)','…밀지 마','밀지 말라니까…','야… 밀지 마?','밀지 마… (마지막이다)'],
  pushy1:'밀라고!!',pushy2:'…다음엔 밀어라',early:'밀지 말라고 했잖아!',late:'지금이 아니잖아!',clear:'좀 아는구나!',both:'너도 들어오냐!',dive:'네가 들어가냐!!',dive2:'…최고다, 너',bored:'…넌 재미없어',
  hot:['뜨거!','뜨거! 뜨거!','앗 뜨거!!'],meHot:['뜨거!','앗 뜨!'],bigClear:'훌륭해!',bigBoth:'그럭저럭!',bigDive:'최고!',
@@ -175,7 +175,7 @@ ko:{tTitle:'밀지 마<small>…절대 밀지 마</small>',hud:'밀지 마',how:
  head_early:'밀어 버렸다…',head_clear:'약속 성립!',head_late:'너무 늦게 밀었다…',head_both:'같이 빠졌다!',head_dive:'직접 뛰어들었다!',head_bored:'안 밀었다…',
  cntHead:'모두의 칭호',people:'{n}명',me:'나',loading:'불러오는 중…',cerr:'인원을 불러오지 못했습니다',up:'칭호가 올랐다!',
  again:'한 번 더',video:'영상 만들기',xpost:'X에 올리기',top:'타이틀로',making:'영상 만드는 중…',share:'영상 공유',save:'영상 저장',back:'돌아가기',vfail:'이 기기에서는 영상을 만들 수 없습니다',vmade:'완성!',shareHint:'저장한 영상을 X 게시물에 붙여 주세요',
- post:'밀지 마: {line}\n칭호 “{g}”',tags:'#押すなよ',home:'Nasubi no Oniwa'}};
+ post:'눈치 보는 게임: {line}\n칭호 “{g}”',tags:'#空気を読むゲーム',home:'Nasubi no Oniwa'}};
 const LANGS=[['ja','日本語'],['en','English'],['zh','繁中'],['ko','한국어']];
 let lang=(q=>['ja','en','zh','ko'].includes(q)?q:null)(new URLSearchParams(location.search).get('lang'))||ls.get('osn_lang',null)||(n=>n.startsWith('ja')?'ja':n.startsWith('zh')?'zh':n.startsWith('ko')?'ko':'en')((navigator.language||'ja').toLowerCase());
 const t=(k,o)=>{let s=(TX[lang]||TX.ja)[k];if(s==null)s=TX.ja[k];if(o)for(const [a,b] of Object.entries(o))s=String(s).split('{'+a+'}').join(b);return s;};
