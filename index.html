@@ -82,6 +82,12 @@ html,body{height:100%;margin:0;background:#2a1a4a;color:var(--ink);font-family:"
 #rUp{color:#d8352a;font-weight:900;font-size:14px}
 #vidPrev{width:100%;max-height:52vh;border-radius:12px;background:#000;border:3px solid #1d1d1d}
 #recBadge{position:fixed;left:50%;top:45%;transform:translateX(-50%);z-index:12;background:#000c;color:#fff;font-weight:900;padding:12px 20px;border-radius:14px}
+#telop{position:fixed;left:0;right:0;bottom:calc(env(safe-area-inset-bottom,0px) + 158px);text-align:center;z-index:7;pointer-events:none;padding:0 14px;line-height:1.15}
+#telop span{display:inline-block;font-weight:900;font-size:40px;white-space:nowrap;color:#fff23a;transform:rotate(-3deg);text-shadow:-3px -3px 0 #c8102e,3px -3px 0 #c8102e,-3px 3px 0 #c8102e,3px 3px 0 #c8102e,0 -4px 0 #c8102e,0 4px 0 #c8102e,-4px 0 0 #c8102e,4px 0 0 #c8102e,0 8px 0 #1d1d1d}
+#telop.pop span{animation:tpop .38s cubic-bezier(.2,1.7,.4,1)}
+@keyframes tpop{0%{transform:scale(.25) rotate(-12deg);opacity:0}100%{transform:scale(1) rotate(-3deg);opacity:1}}
+#wipe{position:fixed;right:calc(env(safe-area-inset-right,0px) + 10px);top:calc(env(safe-area-inset-top,0px) + 96px);width:34vw;max-width:190px;aspect-ratio:4/3;border:4px solid #fff;box-shadow:0 3px 10px #0008;z-index:5;pointer-events:none;border-radius:4px}
+.bub.gaya{font-size:17px;padding:4px 10px;background:#fff6c8}
 </style>
 </head>
 <body>
@@ -90,6 +96,9 @@ html,body{height:100%;margin:0;background:#2a1a4a;color:var(--ink);font-family:"
 <div id="hud" hidden><div id="hudTitle"></div><div id="hudCnt"></div></div>
 <div id="bubM" class="bub" hidden></div>
 <div id="bubP" class="bub me" hidden></div>
+<div id="bubG" class="bub gaya" hidden></div>
+<div id="telop" hidden><span></span></div>
+<div id="wipe" hidden></div>
 <div id="big" hidden></div>
 <button id="skipBtn" hidden></button>
 <div id="btnArea" hidden><button id="noBtn"></button><button id="pushBtn"></button></div>
@@ -145,7 +154,9 @@ ja:{tTitle:'空気を読むゲーム<small>押すなよ…絶対に押すなよ<
  head_early:'押してしまった…',head_clear:'お約束、成立！',head_late:'押すのが遅すぎた…',head_both:'一緒に落ちた！',head_dive:'自分が飛び込んだ！',head_bored:'押さなかった…',
  cntHead:'みんなの称号',people:'{n}人',me:'あなた',loading:'読み込み中…',cerr:'人数を読み込めませんでした',up:'称号が上がった！',
  again:'もう一回',video:'動画をつくる',xpost:'Xに投稿',top:'タイトルへ',making:'動画をつくっています…',share:'動画を共有',save:'動画を保存',back:'もどる',vfail:'この端末では動画をつくれませんでした',vmade:'できました',shareHint:'保存した動画を、Xの投稿に貼ってね',
- post:'空気を読むゲームで、{line}\n称号「{g}」',tags:'#空気を読むゲーム',home:'なすびのお庭'},
+ post:'空気を読むゲームで、{line}\n称号「{g}」',tags:'#空気を読むゲーム',home:'なすびのお庭',tel_push:'押したーーー！！',tel_hot:'熱湯へ！！',tel_clear:'お約束、成立！',tel_early:'早すぎる…',tel_late:'遅すぎる…',tel_both1:'道連れ！？',tel_both2:'ふたりで熱湯！',tel_dive1:'まさかの…',tel_dive2:'自分が飛び込んだーー！！',tel_bored1:'シーン…',tel_bored2:'放送事故',tel_pushy:'押さないの！？',
+ kanpe:{def:'空気を読め',lol:'爆笑',wrap:'巻きで！',clear:'最高！',dive:'神回！',both:'いいね！',early:'早い！',late:'遅い！',bored:'放送事故'},
+ gaya:{early:['早い早い！','まだだって！'],late:['今じゃねえよ！','遅いって！'],clear:['よっ！','いいぞー！'],both:['お前もかよ！','二人で行った！'],dive:['お前が行くんかい！','すげえ！'],bored:['なにしてんの…'],pushy:['ははは！','押せって！']}},
 en:{tTitle:'Read the Room<small>“Don’t push me… seriously, DON’T”</small>',hud:'Read the Room',how:'A bare back in front of you. Boiling water beyond.<br>He says “Don’t push me.” What do you do?',start:'Start',skip:'Skip ▶▶',push:'PUSH',no:'DON’T',
  L:['','Don’t push me','Don’t push me!','Do NOT push me!','Don’t push me','Don’t push me…?','Don’t push me! (peek)','…Don’t push me','I said don’t…','Hey… don’t push me?','Don’t push me… (last chance)'],
  pushy1:'PUSH ME ALREADY!!',pushy2:'…Push me next time, OK?',early:'I SAID DON’T PUSH!',late:'Not NOW!',clear:'You get it!',both:'Why are YOU in here too?!',dive:'YOU jumped in?!',dive2:'…You’re a genius',bored:'…You’re no fun.',
@@ -155,7 +166,9 @@ en:{tTitle:'Read the Room<small>“Don’t push me… seriously, DON’T”</sma
  head_early:'You pushed…',head_clear:'Classic gag, nailed!',head_late:'Too late…',head_both:'Fell in together!',head_dive:'You jumped in!',head_bored:'Never pushed…',
  cntHead:'Everyone’s titles',people:'{n}',me:'you',loading:'Loading…',cerr:'Could not load',up:'Title upgraded!',
  again:'Again',video:'Make a video',xpost:'Post on X',top:'Title',making:'Making the video…',share:'Share video',save:'Save video',back:'Back',vfail:'This device can’t make videos',vmade:'Done',shareHint:'Attach the saved video to your post on X',
- post:'Read the Room: {line}\nTitle: “{g}”',tags:'#空気を読むゲーム',home:'Nasubi no Oniwa'},
+ post:'Read the Room: {line}\nTitle: “{g}”',tags:'#空気を読むゲーム',home:'Nasubi no Oniwa',tel_push:'HE PUSHED!!',tel_hot:'INTO THE HOT BATH!!',tel_clear:'Classic gag, nailed!',tel_early:'Way too early…',tel_late:'Way too late…',tel_both1:'Dragging him along!?',tel_both2:'Both in the bath!',tel_dive1:'Wait…',tel_dive2:'HE JUMPED IN HIMSELF!!',tel_bored1:'*silence*',tel_bored2:'Dead air',tel_pushy:'You DIDN’T push!?',
+ kanpe:{def:'READ THE ROOM',lol:'LOL',wrap:'WRAP IT UP!',clear:'AMAZING!',dive:'EPIC!',both:'NICE!',early:'TOO EARLY!',late:'TOO LATE!',bored:'DEAD AIR'},
+ gaya:{early:['Too early!','Not yet!'],late:['Not now!','Too late!'],clear:['Yeah!','Nice one!'],both:['You too?!','Both of them!'],dive:['YOU went in?!','No way!'],bored:['What are you doing…'],pushy:['Hahaha!','Push him!']}},
 zh:{tTitle:'讀空氣遊戲<small>不要推喔…絕對不要推喔</small>',hud:'讀空氣遊戲',how:'眼前是一個背影。前面是滾燙的熱水。<br>他說「不要推喔」，你會怎麼做？',start:'開始',skip:'跳過 ▶▶',push:'推',no:'不推',
  L:['','不要推喔','不要推喔！','絕對不要推喔！','不要推喔','不要推喔…？','不要推喔！（偷看）','…不要推喔','就說不要推…','欸…不要推喔？','不要推喔…（最後一次了）'],
  pushy1:'快推啊！！',pushy2:'…下次要推喔',early:'我不是說不要推嗎！',late:'不是現在啦！',clear:'你很懂嘛！',both:'你也一起下來喔！',dive:'你自己跳下去喔！？',dive2:'…你太強了',bored:'…你真無聊',
@@ -165,7 +178,9 @@ zh:{tTitle:'讀空氣遊戲<small>不要推喔…絕對不要推喔</small>',hud
  head_early:'推下去了…',head_clear:'經典成立！',head_late:'推得太晚了…',head_both:'一起掉下去！',head_dive:'自己跳下去！',head_bored:'沒有推…',
  cntHead:'大家的稱號',people:'{n}人',me:'你',loading:'讀取中…',cerr:'無法讀取人數',up:'稱號升級了！',
  again:'再一次',video:'製作影片',xpost:'發到X',top:'回標題',making:'影片製作中…',share:'分享影片',save:'儲存影片',back:'返回',vfail:'這個裝置無法製作影片',vmade:'完成了',shareHint:'把儲存的影片貼到X的貼文裡吧',
- post:'讀空氣遊戲：{line}\n稱號「{g}」',tags:'#空気を読むゲーム',home:'Nasubi no Oniwa'},
+ post:'讀空氣遊戲：{line}\n稱號「{g}」',tags:'#空気を読むゲーム',home:'Nasubi no Oniwa',tel_push:'推下去了——！！',tel_hot:'掉進熱水！！',tel_clear:'經典成立！',tel_early:'太早了…',tel_late:'太晚了…',tel_both1:'一起拖下水！？',tel_both2:'兩個人一起泡熱水！',tel_dive1:'竟然…',tel_dive2:'自己跳下去了——！！',tel_bored1:'一片寂靜…',tel_bored2:'放送事故',tel_pushy:'竟然不推！？',
+ kanpe:{def:'讀空氣',lol:'爆笑',wrap:'快收尾！',clear:'太棒了！',dive:'神回！',both:'不錯！',early:'太早！',late:'太晚！',bored:'放送事故'},
+ gaya:{early:['太早了啦！','還沒啦！'],late:['不是現在啦！','太晚了！'],clear:['讚！','好耶！'],both:['你也下去喔！','兩個都下去了！'],dive:['你自己跳喔！','太猛了！'],bored:['你在幹嘛…'],pushy:['哈哈哈！','推啊！']}},
 ko:{tTitle:'눈치 보는 게임<small>밀지 마… 절대 밀지 마</small>',hud:'눈치 보는 게임',how:'눈앞에 등이 있다. 그 너머는 펄펄 끓는 물.<br>“밀지 마”라고 하면, 어떻게 할래?',start:'시작',skip:'건너뛰기 ▶▶',push:'민다',no:'안 민다',
  L:['','밀지 마','밀지 마!','절대 밀지 마!','밀지 마','밀지 마…?','밀지 마! (힐끔)','…밀지 마','밀지 말라니까…','야… 밀지 마?','밀지 마… (마지막이다)'],
  pushy1:'밀라고!!',pushy2:'…다음엔 밀어라',early:'밀지 말라고 했잖아!',late:'지금이 아니잖아!',clear:'좀 아는구나!',both:'너도 들어오냐!',dive:'네가 들어가냐!!',dive2:'…최고다, 너',bored:'…넌 재미없어',
@@ -175,7 +190,9 @@ ko:{tTitle:'눈치 보는 게임<small>밀지 마… 절대 밀지 마</small>',
  head_early:'밀어 버렸다…',head_clear:'약속 성립!',head_late:'너무 늦게 밀었다…',head_both:'같이 빠졌다!',head_dive:'직접 뛰어들었다!',head_bored:'안 밀었다…',
  cntHead:'모두의 칭호',people:'{n}명',me:'나',loading:'불러오는 중…',cerr:'인원을 불러오지 못했습니다',up:'칭호가 올랐다!',
  again:'한 번 더',video:'영상 만들기',xpost:'X에 올리기',top:'타이틀로',making:'영상 만드는 중…',share:'영상 공유',save:'영상 저장',back:'돌아가기',vfail:'이 기기에서는 영상을 만들 수 없습니다',vmade:'완성!',shareHint:'저장한 영상을 X 게시물에 붙여 주세요',
- post:'눈치 보는 게임: {line}\n칭호 “{g}”',tags:'#空気を読むゲーム',home:'Nasubi no Oniwa'}};
+ post:'눈치 보는 게임: {line}\n칭호 “{g}”',tags:'#空気を読むゲーム',home:'Nasubi no Oniwa',tel_push:'밀었다——!!',tel_hot:'펄펄 끓는 탕으로!!',tel_clear:'약속 성립!',tel_early:'너무 빨라…',tel_late:'너무 늦어…',tel_both1:'같이 끌고 가!?',tel_both2:'둘이서 열탕!',tel_dive1:'설마…',tel_dive2:'직접 뛰어들었다——!!',tel_bored1:'정적…',tel_bored2:'방송사고',tel_pushy:'안 미는 거야!?',
+ kanpe:{def:'눈치 챙겨',lol:'폭소',wrap:'빨리 끝내!',clear:'최고!',dive:'레전드!',both:'좋아!',early:'너무 빨라!',late:'너무 늦어!',bored:'방송사고'},
+ gaya:{early:['빨라 빨라!','아직이야!'],late:['지금 아니야!','늦었어!'],clear:['좋다!','잘했어!'],both:['너도냐!','둘 다 갔다!'],dive:['네가 가냐!','대박!'],bored:['뭐 하는 거야…'],pushy:['하하하!','밀어!']}}};
 const LANGS=[['ja','日本語'],['en','English'],['zh','繁中'],['ko','한국어']];
 let lang=(q=>['ja','en','zh','ko'].includes(q)?q:null)(new URLSearchParams(location.search).get('lang'))||ls.get('osn_lang',null)||(n=>n.startsWith('ja')?'ja':n.startsWith('zh')?'zh':n.startsWith('ko')?'ko':'en')((navigator.language||'ja').toLowerCase());
 const t=(k,o)=>{let s=(TX[lang]||TX.ja)[k];if(s==null)s=TX.ja[k];if(o)for(const [a,b] of Object.entries(o))s=String(s).split('{'+a+'}').join(b);return s;};
@@ -206,6 +223,48 @@ const SFX={
  slide(){tone(520,.05,{type:'triangle',v:.05,to:720});},
  sigh(){noise(1.1,{ft:'bandpass',f:900,fto:300,v:.18,atk:.3});}};
 
+
+// ===== 観客の声（その場で合成：がやがや・笑い・えー・おおー・ああ・歓声・拍手） =====
+const RND=Math.random,ru=(a,b)=>a+RND()*(b-a),pick=a=>a[Math.floor(RND()*a.length)];
+const VOW={a:[800,1250],i:[320,2300],u:[360,1350],e:[520,1900],o:[520,880]},VK=['a','i','u','e','o','a','o'];
+let crowdBus=null,murG=null,CB=null;const mood={laugh:0,clap:0,cheer:0,shock:0,sad:0,ooh:0,flash:0};
+function bpc(f,q,sr){const w=2*Math.PI*Math.min(f,sr*.45)/sr,al=Math.sin(w)/(2*q),a0=1+al;return [al/a0,0,-2*Math.cos(w)/a0,(1-al)/a0];}
+function vox(d,sr,segs,fem){let ph=0;const s1=[0,0,0,0],s2=[0,0,0,0];const fs=fem?1.16:1;
+ for(const g of segs){const i0=Math.max(0,Math.floor(g.t0*sr)),i1=Math.min(d.length,Math.floor(g.t1*sr));const n=i1-i0;if(n<=8)continue;
+  const F=VOW[g.v];const c1=bpc(F[0]*fs,4,sr),c2=bpc(F[1]*fs,6,sr);const br=g.br||0,fa=g.fa,fb=g.fb,amp=g.amp,sm2=g.smooth;const att=sr*.012,rel=sr*.05;
+  for(let i=0;i<n;i++){const k=i/n;const f=sm2?fa*(1+(g.bend||0)*Math.sin(Math.PI*k))+(fb-fa)*k:fa+(fb-fa)*k;ph+=f/sr;ph-=Math.floor(ph);let x=2*ph-1;if(br)x=x*(1-br)+(RND()*2-1)*br*1.6;
+   const e=(sm2?Math.pow(Math.sin(Math.PI*Math.min(1,k*1.15)),.7):Math.min(1,i/att,(n-i)/rel))*amp;
+   const y1=c1[0]*(x-s1[1])-c1[2]*s1[2]-c1[3]*s1[3];s1[1]=s1[0];s1[0]=x;s1[3]=s1[2];s1[2]=y1;
+   const y2=c2[0]*(x-s2[1])-c2[2]*s2[2]-c2[3]*s2[3];s2[1]=s2[0];s2[0]=x;s2[3]=s2[2];s2[2]=y2;
+   d[i0+i]+=(y1+.55*y2)*e;}}}
+function lp1(d,sr,f){const a=Math.exp(-2*Math.PI*f/sr);let y=0;for(let i=0;i<d.length;i++){y=(1-a)*d[i]+a*y;d[i]=y;}}
+function room(d,sr){const D=[.029,.043,.067,.091].map(x=>Math.floor(sr*x)),G=[.32,.24,.17,.11];for(let i=d.length-1;i>=0;i--){let a=0;for(let k=0;k<4;k++)if(i>=D[k])a+=d[i-D[k]]*G[k];d[i]+=a;}}
+function mkBuf(sec,fn,loop){const sr=22050,X=loop?Math.floor(sr*.6):0;const n=Math.floor(sr*sec);const tmp=new Float32Array(n+X);fn(tmp,sr);
+ let m=1e-6;for(let i=0;i<tmp.length;i++){const a=Math.abs(tmp[i]);if(a>m)m=a;}const g=.9/m;
+ const b=AC.createBuffer(1,n,sr),d=b.getChannelData(0);for(let i=0;i<n;i++)d[i]=tmp[i]*g;
+ if(loop)for(let i=0;i<X;i++){const k=i/X;d[i]=d[i]*k+tmp[n+i]*g*(1-k);}return b;}
+function bMur(d,sr){const L=d.length/sr;for(let v=0;v<26;v++){const fem=RND()<.5,f0=fem?ru(190,260):ru(100,150);const segs=[];let t=ru(-.6,1.4);
+  while(t<L){const te=t+ru(.6,1.8);let q=t;while(q<te){const len=ru(.09,.2),f=f0*ru(.9,1.12);segs.push({t0:q,t1:q+len,v:pick(VK),fa:f,fb:f*ru(.92,1.05),amp:ru(.5,1),br:.18});q+=len+ru(0,.04);}t=te+ru(.25,1.1);}
+  vox(d,sr,segs,fem);}lp1(d,sr,1900);room(d,sr);}
+function bLaugh(n){return (d,sr)=>{for(let v=0;v<n;v++){const fem=RND()<.55,f0=fem?ru(230,380):ru(130,210);const segs=[];let t=ru(0,.35);const end=ru(1.3,2.7),rate=ru(4.2,6.8);
+  while(t<end){const len=1/rate*ru(.55,.8),down=1-.25*(t/end),f=f0*down*ru(.95,1.08);segs.push({t0:t,t1:t+len,v:RND()<.85?'a':'e',fa:f*1.06,fb:f*.94,amp:ru(.6,1)*(1-.5*t/end),br:.45});t+=1/rate*ru(.9,1.15);if(RND()<.07)t+=ru(.15,.35);}
+  vox(d,sr,segs,fem);}room(d,sr);};}
+function bVow(n,vw,lo,hi,bend,len){return (d,sr)=>{for(let v=0;v<n;v++){const fem=RND()<.5,f0=(fem?ru(200,320):ru(110,180))*(hi?1.25:1);const t0=ru(0,.22),L=ru(len*.7,len);
+  vox(d,sr,[{t0,t1:t0+L,v:vw,fa:f0,fb:f0*lo,amp:ru(.6,1),br:hi?.3:.12,smooth:1,bend}],fem);}room(d,sr);};}
+function bCheer(d,sr){bVow(18,'a',.85,1,.15,1.6)(d,sr);for(let w=0;w<5;w++){const t0=ru(.1,.9),L=ru(.35,.7),i0=Math.floor(t0*sr),n=Math.floor(L*sr),fa=ru(1700,2300);let ph=0;
+  for(let i=0;i<n&&i0+i<d.length;i++){const k=i/n;const f=fa*(1+.35*Math.sin(Math.PI*k))-(k>.6?(k-.6)*900:0);ph+=f/sr;d[i0+i]+=Math.sin(2*Math.PI*ph)*Math.sin(Math.PI*k)*.35;}}}
+function bClap(n){return (d,sr)=>{for(let p=0;p<n;p++){let t=ru(0,.3);const rate=ru(3.5,6),end=ru(2.2,3),c=bpc(ru(900,2600),1.2,sr),st=[0,0,0,0];
+  while(t<end){const i0=Math.floor(t*sr),L=Math.floor(sr*.03),amp=ru(.5,1)*(t>end-.6?(end-t)/.6:1);for(let i=0;i<L&&i0+i<d.length;i++){const x=(RND()*2-1)*Math.exp(-i/(sr*.006));const y=c[0]*(x-st[1])-c[2]*st[2]-c[3]*st[3];st[1]=st[0];st[0]=x;st[3]=st[2];st[2]=y;d[i0+i]+=y*amp;}t+=1/rate*ru(.85,1.15);}}room(d,sr);};}
+function buildCrowd(){if(CB||!ac())return;CB={};crowdBus=AC.createGain();crowdBus.gain.value=.55;crowdBus.connect(master);
+ CB.mur=mkBuf(5.4,bMur,true);murG=AC.createGain();murG.gain.value=0;murG.connect(crowdBus);const src=AC.createBufferSource();src.buffer=CB.mur;src.loop=true;src.connect(murG);src.start();
+ const jobs=[['gig',2.2,bLaugh(7)],['laugh',3,bLaugh(22)],['eh',1.6,bVow(20,'e',.78,1,.12,1.2)],['ooh',2,bVow(20,'o',1.05,0,.18,1.6)],['aah',2,bVow(18,'a',.72,0,.05,1.5)],['cheer',2.2,bCheer],['applause',3.2,bClap(40)]];
+ const next=()=>{const j=jobs.shift();if(!j)return;CB[j[0]]=mkBuf(j[1],j[2]);setTimeout(next,0);};setTimeout(next,0);}
+function murSet(v){if(murG&&AC)murG.gain.setTargetAtTime(v,AC.currentTime,.35);}
+const CMAP={giggle:'laugh',laugh:'laugh',ooh:'ooh',eh:'shock',aah:'sad',applause:'clap',cheer:'cheer'};
+function cue(k,v){const m=CMAP[k];mood[m]=Math.max(mood[m],v*(k==='giggle'?.45:1));if(k==='cheer'||k==='applause')mood.flash=Math.max(mood.flash,v);
+ if(!AC||!CB)return;const b=CB[k==='giggle'?'gig':k];if(!b)return;const src=AC.createBufferSource();src.buffer=b;src.playbackRate.value=ru(.95,1.05);const g=AC.createGain();g.gain.value=v;src.connect(g).connect(crowdBus);src.start();}
+function resetMood(){for(const k in mood)mood[k]=0;}
+
 // ===== 3D =====
 const can=$('c');
 const R3=new THREE.WebGLRenderer({canvas:can,antialias:true});R3.setPixelRatio(Math.min(2,devicePixelRatio||1));
@@ -225,7 +284,7 @@ for(let i=-6;i<=6;i++)S3.add(mesh(GEO.box,STD(i%2?0x45337a:0x3a2a62),1.4,.012,40
 const wallC=[0xffd23a,0xff6a9a,0x3ad0e0,0x8ae04a,0xff8a3a];
 for(let i=0;i<13;i++)S3.add(mesh(GEO.box,STD(wallC[i%5]),1.6,9,.2,(i-6)*1.65,4.5,-10.5));
 S3.add(mesh(GEO.box,STD(0x1d1236),24,.3,24,0,8.6,-2));
-const sign=new THREE.Mesh(new THREE.PlaneGeometry(4.6,1.3),new THREE.MeshBasicMaterial({map:txTex(['熱湯'],512,144,'#d8352a','#fff','900 110px "Hiragino Maru Gothic ProN",system-ui,sans-serif')}));sign.scale.setScalar(1.3);sign.position.set(0,5.4,-10.38);S3.add(sign);
+const sign=new THREE.Mesh(new THREE.PlaneGeometry(4.6,1.3),new THREE.MeshBasicMaterial({map:txTex(['熱湯風呂'],512,144,'#d8352a','#fff','900 104px "Hiragino Maru Gothic ProN",system-ui,sans-serif')}));sign.scale.setScalar(1.6);sign.position.set(0,6.0,-10.38);S3.add(sign);
 for(const sx of [-1,1]){const lt=mesh(GEO.cyl,STD(0x222222),.18,.4,.18,sx*3.2,5.2,-5.5);lt.rotation.x=.6;S3.add(lt);const cone=new THREE.Mesh(new THREE.ConeGeometry(1.4,5,24,1,true),new THREE.MeshBasicMaterial({color:0xfff6c0,transparent:true,opacity:.07,depthWrite:false,side:THREE.DoubleSide}));cone.position.set(sx*2.2,2.8,-2.6);cone.rotation.z=-sx*.3;S3.add(cone);}
 // 台（立つところ）
 S3.add(mesh(GEO.box,STD(0x9a6a3a),3.2,1,3.2,0,.5,1.6));
@@ -261,6 +320,88 @@ function makeMan(trunkC,hairC){
  return {g,spine,neck,head,mouth,brows,aL,eL,aR,eR,lL,kL,lR,kR};
 }
 const MAN=makeMan(0xd8352a,0x2a1a10),ME=makeMan(0x2a6ad8,0x5a3a1a);
+// ===== テレビの収録スタジオ（観客・ガヤ芸人・スタッフ・カンペ・電飾） =====
+const G1=makeMan(0xffd23a,0x1a1a1a),G2=makeMan(0x1aa34a,0x6a3a1a);
+const GP=[{m:G1,x:-1.05,z:1.5,yaw:-.49},{m:G2,x:1.05,z:1.5,yaw:.49}];
+S3.add(mesh(GEO.box,STD(0x2b1f55),.2,9,15,-8.3,4.5,-3));
+const onair=new THREE.Mesh(new THREE.PlaneGeometry(2.2,.75),new THREE.MeshBasicMaterial({map:txTex(['ON AIR'],320,110,'#d01818','#ffffff','900 74px system-ui,sans-serif')}));onair.position.set(-8.18,4.3,-.6);onair.rotation.y=Math.PI/2;S3.add(onair);
+for(const z of [-2.6,1.8]){S3.add(mesh(GEO.box,STD(0x3a3a44),13,.18,.18,0,7.7,z));for(let x=-5.4;x<=5.41;x+=1.8){const c=mesh(GEO.cyl,STD(0x1a1a1e),.16,.34,.16,x,7.45,z);c.rotation.x=z<0?-.5:.5;S3.add(c);}}
+for(const [x,z,ry] of [[-1.6,-1.2,.35],[1.6,-1.2,-.35],[0,1.2,0]]){const cone=new THREE.Mesh(new THREE.ConeGeometry(1.1,6.4,20,1,true),new THREE.MeshBasicMaterial({color:0xfff2c0,transparent:true,opacity:.05,depthWrite:false,side:THREE.DoubleSide}));cone.position.set(x,4.5,z);cone.rotation.z=ry;S3.add(cone);}
+// 観客（同じ形をたくさん並べる）
+const AUD=[];
+const SHIRT=[0xe8352a,0x2a6ad8,0xffd23a,0x1aa34a,0xff7ad8,0xffffff,0x7a3ad8,0xff8a3a,0x3ad0e0,0x222222,0xf2f2a0,0x8a5a3a],SKIN=[0xf2d3b8,0xe6c09c,0xd8a882,0xf6dcc8],HAIR=[0x1a1410,0x2a1a10,0x4a2a18,0x6a4a2a,0x8a6a40,0x111111,0xc89a5a],PANTS=[0x2a2a3a,0x3a3a5a,0x1f2a44,0x555555,0x6a4a2a];
+function seat(x,y,z){const dx=0-x,dz=-.3-z;const B=new THREE.Matrix4();B.makeRotationY(Math.atan2(-dx,-dz));B.setPosition(x,y,z);AUD.push({B,ph:RND()*40,s:ru(.6,1.25),side:RND()<.5?1:-1,c:pick(SHIRT),sk:pick(SKIN),hc:pick(HAIR),pc:pick(PANTS)});}
+for(let r=0;r<6;r++){const top=.36+r*.42,zc=-5.2-r*.85;S3.add(mesh(GEO.box,STD(r%2?0x2a2050:0x332766),13.4,top,.85,0,top/2,zc),mesh(GEO.box,STD(0xffd23a),13.4,.03,.04,0,top+.005,zc+.425));
+ for(let x=-6.1;x<=6.11;x+=.72){if(RND()<.06)continue;seat(x+ru(-.07,.07),top,zc+.12);}}
+for(let r=0;r<4;r++){const top=.36+r*.42,xc=-4.7-r*.85;S3.add(mesh(GEO.box,STD(r%2?0x2a2050:0x332766),.85,top,6.6,xc,top/2,-.3),mesh(GEO.box,STD(0xffd23a),.04,.03,6.6,xc+.425,top+.005,-.3));
+ for(let z=-3.3;z<=2.71;z+=.72){if(RND()<.06)continue;seat(xc+.12,top,z+ru(-.07,.07));}}
+const aGeo={torso:new THREE.CylinderGeometry(.16,.19,.5,10).translate(0,.25,0).scale(1,1,.72),head:new THREE.SphereGeometry(.105,12,10).translate(0,.13,0),hair:new THREE.SphereGeometry(.112,12,8,0,Math.PI*2,0,Math.PI*.5).translate(0,.15,.012),
+ arm:new THREE.CylinderGeometry(.042,.036,.44,7).translate(0,-.22,0),lap:new THREE.BoxGeometry(.34,.13,.42).translate(0,.065,-.2),shin:new THREE.BoxGeometry(.3,.4,.12).translate(0,-.2,-.38)};
+const aMat=new THREE.MeshStandardMaterial({color:0xffffff,roughness:.75});
+const AI={};for(const k of ['torso','head','hair','armL','armR','lap','shin']){const im=new THREE.InstancedMesh(aGeo[k.startsWith('arm')?'arm':k],aMat,AUD.length);im.frustumCulled=false;S3.add(im);AI[k]=im;}
+{const c=new THREE.Color();AUD.forEach((p,i)=>{c.setHex(p.c);AI.torso.setColorAt(i,c);AI.armL.setColorAt(i,c);AI.armR.setColorAt(i,c);c.setHex(p.sk);AI.head.setColorAt(i,c);c.setHex(p.hc);AI.hair.setColorAt(i,c);c.setHex(p.pc);AI.lap.setColorAt(i,c);AI.shin.setColorAt(i,c);AI.lap.setMatrixAt(i,p.B);AI.shin.setMatrixAt(i,p.B);});}
+const _e=new THREE.Euler(),_m1=new THREE.Matrix4(),_mt=new THREE.Matrix4(),_mh=new THREE.Matrix4(),_ma=new THREE.Matrix4();
+function locM(x,y,z,rx,ry,rz){_e.set(rx,ry,rz);_m1.makeRotationFromEuler(_e);_m1.setPosition(x,y,z);return _m1;}
+const DEC={laugh:.42,clap:.36,cheer:.45,shock:.9,sad:.2,ooh:.7,flash:.55};
+function updCrowd(dt,T){for(const k in DEC)mood[k]=Math.max(0,mood[k]-dt*DEC[k]);
+ for(let i=0;i<AUD.length;i++){const p=AUD[i],sv=p.s,w=T+p.ph;
+  const L=clamp(mood.laugh*sv,0,1),C=clamp(mood.clap*sv,0,1),H=clamp(mood.cheer*sv,0,1),K=clamp(mood.shock*sv,0,1),S=clamp(mood.sad*sv,0,1),O=clamp(mood.ooh*sv,0,1);
+  const bob=Math.sin(w*1.3)*.006+L*Math.abs(Math.sin(w*11))*.035+H*(.1+.08*Math.sin(w*9));
+  const tx=L*(.1+.15*Math.sin(w*4.5))+K*.28-S*.3-O*.18;
+  const hx=L*.35*Math.abs(Math.sin(w*5))+K*.25-S*.45-O*.1+H*.2;const ch=Math.sin(w*.37+p.ph*3);const hy=(ch>.75?(ch-.75)*2.8*p.side:0)*(1-L)*(1-H);
+  let ax=1.05,az=.05;const bl=(x,z,k)=>{ax+=(x-ax)*k;az+=(z-az)*k;};
+  bl(.35,.02,S);bl(.75,-.45,L*.8);bl(2.2,-.55,K);bl(1.3,-(.25+.25*Math.abs(Math.sin(w*13))),C);bl(2.9,.35+.15*Math.sin(w*10),H);
+  _mt.multiplyMatrices(p.B,locM(0,bob,0,tx,0,0));AI.torso.setMatrixAt(i,_mt);
+  _mh.multiplyMatrices(_mt,locM(0,.55,0,hx,hy,0));AI.head.setMatrixAt(i,_mh);AI.hair.setMatrixAt(i,_mh);
+  _ma.multiplyMatrices(_mt,locM(.2,.47,0,ax,0,az));AI.armL.setMatrixAt(i,_ma);
+  _ma.multiplyMatrices(_mt,locM(-.2,.47,0,ax,0,-az));AI.armR.setMatrixAt(i,_ma);}
+ for(const k of ['torso','head','hair','armL','armR'])AI[k].instanceMatrix.needsUpdate=true;}
+// スタッフ
+function crew(c,x,z,yaw){const g=new THREE.Group();g.position.set(x,0,z);g.rotation.y=yaw;S3.add(g);const M=STD(c),SK=STD(0xe8c4a4),DK=STD(0x1a1a1a);
+ g.add(mesh(GEO.cyl,M,.17,.56,.12,0,1.22,0));const hd=new THREE.Group();hd.position.y=1.62;g.add(hd);hd.add(mesh(GEO.sph,SK,.11,.13,.12),mesh(GEO.sph,DK,.115,.07,.125,0,.06,-.01),mesh(GEO.box,DK,.03,.06,.04,.115,0,0),mesh(GEO.box,DK,.2,.015,.02,0,.12,0));
+ for(const sx of [-1,1])g.add(mesh(GEO.cyl,STD(0x2a2a3a),.065,.92,.065,sx*.08,.46,0));
+ const arms=[-1,1].map(sx=>{const a=new THREE.Group();a.position.set(sx*.2,1.45,0);g.add(a);a.add(mesh(GEO.cyl,M,.045,.5,.045,0,-.25,0),mesh(GEO.sph,SK,.05,.05,.05,0,-.5,0));return a;});return {g,hd,arms};}
+function tvCam(x,z){const g=new THREE.Group();g.position.set(x,0,z);S3.add(g);const DK=STD(0x2a2a2e),GR=STD(0x55565c);
+ g.add(mesh(GEO.cyl,GR,.45,.08,.45,0,.04,0),mesh(GEO.cyl,GR,.07,1.25,.07,0,.66,0));const hd=new THREE.Group();hd.position.y=1.4;g.add(hd);
+ hd.add(mesh(GEO.box,DK,.36,.36,.62,0,0,0));const lens=mesh(GEO.cyl,STD(0x111111),.13,.34,.13,0,0,.46);lens.rotation.x=Math.PI/2;hd.add(lens);hd.add(mesh(GEO.box,STD(0x111111),.24,.16,.12,0,.24,-.25));
+ const tally=mesh(GEO.sph,BAS(0xff2020),.04,.04,.04,0,.21,.25);hd.add(tally);
+ const dx=0-x,dz=.3-z,dy=1.9-1.4;const yaw=Math.atan2(dx,dz);hd.rotation.set(-Math.atan2(dy,Math.hypot(dx,dz)),yaw,0,'YXZ');
+ const op=crew(0x2a2a2a,x-Math.sin(yaw)*.75,z-Math.cos(yaw)*.75,yaw);op.arms.forEach(a=>{a.rotation.x=-1.1;});return {tally};}
+const CAMS=[tvCam(-2.7,-3.6),tvCam(2.75,-3.5)];
+const BOOM=crew(0x2a2a2a,-2.55,1.15,1.2);BOOM.arms.forEach(a=>{a.rotation.x=-2.6;a.rotation.z=.15;});
+const BOOMV=[];{const a=V3(-2.35,2.15,1.05),b=V3(-.32,3.38,.5);const d=b.clone().sub(a);const pole=mesh(GEO.cyl,STD(0x888888),.018,d.length(),.018);pole.position.copy(a).addScaledVector(d,.5);pole.quaternion.setFromUnitVectors(V3(0,1,0),d.normalize());S3.add(pole);
+ const mic=mesh(GEO.sph,STD(0x6a6a6a),.07,.07,.2,b.x,b.y-.07,b.z);S3.add(mic);BOOMV.push(pole,mic);}
+const AD=crew(0x2b3a67,1.1,-3.2,0);AD.arms.forEach((a,i)=>{a.rotation.x=-1.35;a.rotation.z=(i?-1:1)*-.25;});
+const kc=document.createElement('canvas');kc.width=400;kc.height=280;const kg=kc.getContext('2d');const kTex=new THREE.CanvasTexture(kc);kTex.colorSpace=THREE.SRGBColorSpace;
+{const bd=new THREE.Mesh(new THREE.PlaneGeometry(1.0,.7),new THREE.MeshBasicMaterial({map:kTex}));bd.position.set(1.1,1.82,-2.84);bd.rotation.x=-.12;S3.add(bd);const fr=mesh(GEO.box,STD(0x8a6a3a),1.04,.74,.02,1.1,1.82,-2.856);fr.rotation.x=-.12;S3.add(fr);}
+let kNow='';
+function setKanpe(key){const id=lang+key;if(id===kNow)return;kNow=id;const txt=((TX[lang]||TX.ja).kanpe||TX.ja.kanpe)[key]||'';
+ kg.fillStyle='#fbfaf2';kg.fillRect(0,0,400,280);kg.fillStyle='#c33';for(let i=0;i<7;i++){kg.beginPath();kg.arc(40+i*53,16,7,0,7);kg.fill();}
+ kg.fillStyle=key==='bored'||key==='wrap'?'#c8102e':'#111';let fs=104;const F=z=>'900 '+z+'px "Hiragino Maru Gothic ProN",system-ui,sans-serif';kg.font=F(fs);while(kg.measureText(txt).width>360&&fs>30){fs-=6;kg.font=F(fs);}
+ kg.textAlign='center';kg.textBaseline='middle';kg.fillText(txt,200,152);kTex.needsUpdate=true;}
+// 電飾
+const BULB=[];for(let i=0;i<10;i++)BULB.push([1.63,.55,.2+i*.31]);for(let i=0;i<10;i++)BULB.push([-1.63,.55,.2+i*.31]);
+for(let i=0;i<28;i++){BULB.push([-4.2+i*(8.4/27),7.25,-10.3]);BULB.push([-4.2+i*(8.4/27),4.75,-10.3]);}
+for(let i=1;i<6;i++){BULB.push([-4.2,4.75+i*(2.5/6),-10.3]);BULB.push([4.2,4.75+i*(2.5/6),-10.3]);}
+for(let i=0;i<16;i++)BULB.push([-8.15,1.2+i*.35,-3.2]);
+const iB=new THREE.InstancedMesh(new THREE.SphereGeometry(.075,8,6),new THREE.MeshBasicMaterial({color:0xffffff}),BULB.length);iB.frustumCulled=false;S3.add(iB);
+{const c=new THREE.Color(0xffd040);BULB.forEach((p,i)=>{_m1.makeTranslation(p[0],p[1],p[2]);iB.setMatrixAt(i,_m1);iB.setColorAt(i,c);});}
+const _c=new THREE.Color();
+function updBulbs(T){const f=mood.flash,st=Math.floor(T*(f>.2?16:6));for(let i=0;i<BULB.length;i++){if(f>.2){const b=(i+st)%2?1:.25;_c.setHSL((i*.07+T*.8)%1,1,.45*b+.1);}else{const b=(i+st)%4===0?1:.3;_c.setRGB(b,.82*b,.35*b);}iB.setColorAt(i,_c);}iB.instanceColor.needsUpdate=true;
+ const on=Math.sin(T*3)>-.6;onair.material.color.setScalar(on?1:.45);for(const c of CAMS)c.tally.visible=Math.sin(T*2+1)>-.8;}
+// ワイプ（観客の顔）
+const wcam=new THREE.PerspectiveCamera(34,4/3,.05,60);wcam.position.set(-.6,2.6,-3.05);wcam.lookAt(-.2,1.85,-6.9);
+const _v2=new THREE.Vector2();
+function renderWipe(r,x,y,w,h){if(w<10||h<10)return;wcam.aspect=w/h;wcam.updateProjectionMatrix();r.setScissorTest(true);r.setScissor(x,y,w,h);r.setViewport(x,y,w,h);r.render(S3,wcam);r.setScissorTest(false);r.getSize(_v2);r.setViewport(0,0,_v2.x,_v2.y);}
+// ガヤ芸人の動き（観客と同じ盛り上がりに合わせる）
+function gayaPose(T){for(let i=0;i<2;i++){const {m,x,z,yaw}=GP[i];rest(m);stand(m,x,z);m.g.rotation.y=yaw;const w=T+i*1.7;
+ const L=clamp(mood.laugh*1.25,0,1),K=clamp(mood.shock*1.4,0,1),C=clamp(Math.max(mood.clap,mood.cheer)*1.2,0,1),S=clamp(mood.sad*1.2,0,1);const base=1-Math.max(L,K,C,S);
+ m.g.position.y-=.12*base;m.spine.rotation.x=-.35*base;m.lL.rotation.x=m.lR.rotation.x=.55*base;m.kL.rotation.x=m.kR.rotation.x=-1.0*base;m.aL.rotation.x=m.aR.rotation.x=.85*base;m.neck.rotation.x=.3*base;
+ if(L>.05){m.g.position.y+=Math.abs(Math.sin(w*10))*.05*L;m.spine.rotation.x+=(i?-.55:.15)*L+Math.sin(w*5)*.12*L;m.aL.rotation.x+=.7*L;m.aL.rotation.z+=-.6*L;m.aR.rotation.x+=(i?.7:1.5)*L;m.aR.rotation.z+=(i?.6:-.1)*L;m.mouth.scale.set(.06,.04,.012);m.neck.rotation.x+=.35*L;}
+ if(K>.05){m.aL.rotation.z=lerp(m.aL.rotation.z,2.6,K);m.aR.rotation.z=lerp(m.aR.rotation.z,-2.6,K);m.eL.rotation.z=-1.8*K;m.eR.rotation.z=1.8*K;m.spine.rotation.x=lerp(m.spine.rotation.x,.2,K);m.mouth.scale.set(.05,.05,.012);}
+ if(C>.05){const cl=Math.abs(Math.sin(w*12));m.aL.rotation.x=lerp(m.aL.rotation.x,1.4,C);m.aR.rotation.x=lerp(m.aR.rotation.x,1.4,C);m.aL.rotation.z=lerp(m.aL.rotation.z,-.3-.3*cl,C);m.aR.rotation.z=lerp(m.aR.rotation.z,.3+.3*cl,C);m.g.position.y+=Math.abs(Math.sin(w*7))*.06*C;}
+ if(S>.3){m.aL.rotation.set(.9,0,-.55);m.aR.rotation.set(.9,0,.55);m.eL.rotation.x=1.7;m.eR.rotation.x=1.7;m.neck.rotation.x=-.3;m.head.rotation.y=Math.sin(T*2.4+i)*.35;}}}
+
 function rest(m){for(const k of ['spine','neck','head','aL','eL','aR','eR','lL','kL','lR','kR'])m[k].rotation.set(0,0,0);m.g.rotation.set(0,0,0);m.g.visible=true;m.aL.rotation.z=.12;m.aR.rotation.z=-.12;m.mouth.scale.set(.04,.012,.012);for(const [b,sx] of m.brows)b.rotation.z=0;}
 const talkM=(m,T,on,wide)=>{m.mouth.scale.y=on?.012+Math.abs(Math.sin(T*24))*.032:.012;if(wide)m.mouth.scale.x=.06;};
 const angryB=m=>{for(const [b,sx] of m.brows)b.rotation.z=sx*.5;};
@@ -290,7 +431,7 @@ let VA=1;
 function setCam(p,l,wide){const k=wide&&VA<.85?lerp(1.18,1,clamp((VA-.45)/.4,0,1)):1;cam.position.copy(l).addScaledVector(p.clone().sub(l),k);cam.lookAt(l);}
 function fitFov(a){VA=a;cam.aspect=a;cam.fov=clamp(2*Math.atan(Math.tan(27*Math.PI/180)/a)*180/Math.PI,52,80);cam.updateProjectionMatrix();}
 const FP=[V3(0,2.85,2.3),V3(0,1.45,-1.55)],WIDE=[V3(3.6,2.35,-.6),V3(0,1.2,-1.0)];
-const introCurve=new THREE.CatmullRomCurve3([V3(.9,3.1,-6.6),V3(5.6,3.1,-2.8),V3(4.9,2.9,2.3),FP[0].clone()]);
+const introCurve=new THREE.CatmullRomCurve3([V3(0,5.2,-9.3),V3(5.0,3.7,-3.7),V3(4.4,3.2,2.9),FP[0].clone()]);
 
 // ===== 動き =====
 const FEET=1.0,HIP=.95,MZ=.32,TOE=.2;
@@ -324,30 +465,55 @@ const EV={
  line:[[.14,s=>{SFX.talk(s.n===3?7:4,s.n>=4?.85:1);}]],
  pushy:[[.42,()=>{SFX.angry();SFX.talk(5,1.2);}],[1.38,()=>SFX.talk(6,.9)]],
  fall:[[.06,()=>SFX.push()],[.28,()=>SFX.whoosh()],[1.06,()=>{SFX.splash(true);splash(0,-.6,60,1.1);steamBoost=2;}],[1.6,()=>{SFX.splash(false);splash(0,-.85,25,.7);SFX.hiss();SFX.talk(4,1.25);}]],
- both:[[.32,()=>SFX.push()],[.46,()=>SFX.thud()],[.62,()=>SFX.whoosh()],[1.3,()=>{SFX.splash(true);splash(0,-.9,90,1.3);steamBoost=2.5;}],[1.95,()=>{SFX.splash(false);splash(0,-1.1,30,.8);SFX.hiss();SFX.talk(5,1.25);}],[3.75,()=>{SFX.angry();SFX.talk(6);}],[4.45,()=>{SFX.pop();SFX.applause(26,1.6);}]],
- dive:[[.1,()=>SFX.whoosh()],[.6,()=>SFX.whoosh()],[1.4,()=>{SFX.splash(true);splash(0,-1.75,110,1.5);steamBoost=3;}],[2.05,()=>{SFX.splash(false);splash(0,-1.75,30,.8);SFX.hiss();}],[3.55,()=>{SFX.talk(7,1.15);}],[4.75,()=>{SFX.talk(6,.9);SFX.fanfare();SFX.applause();confetti(0,-.8);}]],
+ both:[[.32,()=>SFX.push()],[.46,()=>SFX.thud()],[.62,()=>SFX.whoosh()],[1.3,()=>{SFX.splash(true);splash(0,-.9,90,1.3);steamBoost=2.5;}],[1.95,()=>{SFX.splash(false);splash(0,-1.1,30,.8);SFX.hiss();SFX.talk(5,1.25);}],[3.75,()=>{SFX.angry();SFX.talk(6);}],[4.45,()=>{SFX.pop();}]],
+ dive:[[.1,()=>SFX.whoosh()],[.6,()=>SFX.whoosh()],[1.4,()=>{SFX.splash(true);splash(0,-1.75,110,1.5);steamBoost=3;}],[2.05,()=>{SFX.splash(false);splash(0,-1.75,30,.8);SFX.hiss();}],[3.55,()=>{SFX.talk(7,1.15);}],[4.75,()=>{SFX.talk(6,.9);SFX.fanfare();confetti(0,-.8);}]],
  bored:[[1.0,()=>{SFX.sigh();}],[1.25,()=>SFX.talk(6,.7)],[1.9,()=>SFX.bad()]]};
 function hopEvents(a,b,x,z){const r=[];for(let u=a;u<b;u+=.45)r.push([u,()=>{SFX.hop();splash(x,z,8,.5);steamBoost=Math.min(3,steamBoost+.6);}]);return r;}
-function evList(s){
+function crowdEv(s){const ty=s.type,k=s.kind;
+ if(ty==='intro')return [[.05,()=>murSet(.17)],[2.66,()=>cue('giggle',.5)]];
+ if(ty==='line'){const n=s.n;return n===3?[[.2,()=>cue('ooh',.75)],[.75,()=>cue('giggle',.5)]]:n===4?[[.25,()=>cue('laugh',.55)]]:[[.3,()=>cue('giggle',n<3?.45:.3)]];}
+ if(ty==='pushy')return [[.45,()=>{cue('laugh',1);cue('applause',.35);}],[1.42,()=>cue('laugh',.6)]];
+ if(ty!=='out')return [];
+ if(k==='early')return [[.08,()=>cue('eh',.85)],[1.08,()=>cue('laugh',.85)],[2.3,()=>cue('laugh',.55)],[3.5,()=>cue('laugh',.75)]];
+ if(k==='late')return [[.08,()=>cue('aah',.8)],[1.08,()=>cue('laugh',.7)],[3.5,()=>cue('laugh',.6)]];
+ if(k==='clear')return [[.08,()=>cue('ooh',.9)],[1.08,()=>{cue('laugh',1);cue('cheer',.8);}],[2.3,()=>cue('laugh',.75)],[3.5,()=>{cue('applause',1);cue('cheer',.7);cue('laugh',.5);}]];
+ if(k==='both')return [[.48,()=>cue('eh',1)],[1.32,()=>{cue('laugh',1);cue('cheer',.7);}],[2.6,()=>cue('laugh',.8)],[3.8,()=>cue('laugh',.8)],[4.5,()=>{cue('applause',.85);cue('cheer',.5);}]];
+ if(k==='dive')return [[.15,()=>cue('eh',1)],[1.42,()=>{cue('laugh',1);cue('cheer',1);}],[2.6,()=>cue('laugh',.9)],[3.6,()=>cue('laugh',.9)],[4.8,()=>{cue('applause',1);cue('cheer',1);}]];
+ if(k==='bored')return [[1.05,()=>cue('aah',.75)],[1.9,()=>murSet(0)],[3.05,()=>cue('giggle',.3)]];
+ return [];}
+function evList(s){return [...evList0(s),...crowdEv(s)];}
+function evList0(s){
  if(s.type==='intro')return EV.intro;if(s.type==='line')return EV.line;if(s.type==='pushy')return EV.pushy;if(s.type!=='out')return [];
  const k=s.kind;
- if(k==='early'||k==='clear'||k==='late')return [...EV.fall,...hopEvents(2.05,3.3,0,-.85),[3.45,k==='clear'?()=>{SFX.talk(6,1.1);SFX.fanfare();SFX.applause();confetti(0,-.8);}:()=>{SFX.angry();SFX.talk(7);}]];
+ if(k==='early'||k==='clear'||k==='late')return [...EV.fall,...hopEvents(2.05,3.3,0,-.85),[3.45,k==='clear'?()=>{SFX.talk(6,1.1);SFX.fanfare();confetti(0,-.8);}:()=>{SFX.angry();SFX.talk(7);}]];
  if(k==='both')return [...EV.both,...hopEvents(2.4,3.6,0,-1.2)];
  if(k==='dive')return [...EV.dive,...hopEvents(2.5,4.2,0,-1.75)];
  return EV.bored;}
 function fireEv(s,t0,t1){for(const [at,f] of evList(s))if(at>t0&&at<=t1)f(s);}
 
 // o：吹き出しや大きい文字など、画面に重ねるもの
-function scene(s,t,T){
+function scene(s,t,T){const o=scene0(s,t,T);o.tel=null;o.wipe=false;o.kp='def';o.bg=null;
+ const ty=s.type,k=s.kind;
+ if(ty==='line'||ty==='wait'){if((s.n||0)>=7)o.kp='wrap';}
+ else if(ty==='pushy'){o.kp='lol';if(t>.42&&t<2.4)o.tel=tx('tel_pushy');o.wipe=t>.45;const ga=tx('gaya').pushy;if(t>.5&&t<1.4)o.bg=[0,ga[0]];else if(t>1.45&&t<2.5)o.bg=[1,ga[1]];}
+ else if(ty==='out'){const ga=tx('gaya')[k]||[];
+  if(k==='early'||k==='clear'||k==='late'){if(t<1.0)o.tel=tx('tel_push');else if(t<2.3)o.tel=tx('tel_hot');else if(t>3.45)o.tel=tx('tel_'+k);o.wipe=t>1.1;if(t>.15)o.kp=k;if(t>.35&&t<1.4)o.bg=[0,ga[0]];else if(t>3.7&&t<5.2)o.bg=[1,ga[1]];}
+  else if(k==='both'){if(t>.45&&t<1.3)o.tel=tx('tel_both1');else if(t>=1.3&&t<2.7)o.tel=tx('tel_both2');o.wipe=t>1.35;if(t>.5)o.kp='both';if(t>1.0&&t<2.0)o.bg=[1,ga[0]];else if(t>2.2&&t<3.4)o.bg=[0,ga[1]];}
+  else if(k==='dive'){if(t>.1&&t<.9)o.tel=tx('tel_dive1');else if(t>=.9&&t<2.7)o.tel=tx('tel_dive2');o.wipe=t>1.45;if(t>1.4)o.kp='dive';if(t>1.6&&t<2.6)o.bg=[0,ga[0]];else if(t>2.6&&t<3.4)o.bg=[1,ga[1]];}
+  else if(k==='bored'){if(t>1.9&&t<3.0)o.tel=tx('tel_bored1');else if(t>=3.0)o.tel=tx('tel_bored2');o.kp=t>1.6?'bored':'wrap';if(t>2.2&&t<3.4)o.bg=[0,ga[0]];}}
+ if(o.bg&&!o.bg[1])o.bg=null;
+ {const hb=ty==='out'&&k==='dive'&&t<.66;for(const m of BOOMV)m.visible=!hb;}
+ gayaPose(T);setKanpe(o.kp);return o;}
+function scene0(s,t,T){
  const o={bm:null,bp:null,angry:false,big:null,dark:0,say:s.say||0};
  rest(MAN);rest(ME);ME.g.visible=false;hands.visible=false;hands.position.z=0;
  const type=s.type;
- if(type==='title'){stand(MAN,0,MZ);idle(MAN,T);wiggle(MAN,T);const a=Math.sin(T*.18)*.7;setCam(V3(Math.sin(a)*6.2,3.0,-.8-Math.cos(a)*6.2),V3(0,1.5,-.5),true);
+ if(type==='title'){stand(MAN,0,MZ);idle(MAN,T);wiggle(MAN,T);const a=Math.sin(T*.18)*.6;setCam(V3(Math.sin(a)*5.4,3.7,-.6-Math.cos(a)*5.4),V3(0,1.4,-.4),true);
   const p=T%4.2;if(p<1.2){MAN.aR.rotation.z=-2.6+Math.sin(p*14)*.3;MAN.aR.rotation.x=.2;}return o;}
  if(type==='intro'){
   stand(MAN,0,MZ);idle(MAN,T);
-  if(t<1.0)setCam(introCurve.points[0],V3(0,1.6,0),false);
-  else if(t<2.7){const k=sm((t-1)/1.7);setCam(introCurve.getPoint(k),V3(0,lerp(1.6,FP[1].y,k),lerp(0,FP[1].z,k)),k<.8);}
+  if(t<1.0)setCam(introCurve.points[0],V3(0,1.5,-.3),false);
+  else if(t<2.7){const k=sm((t-1)/1.7);setCam(introCurve.getPoint(k),V3(0,lerp(1.5,FP[1].y,k),lerp(-.3,FP[1].z,k)),false);}
   else setCam(FP[0],FP[1]);
   if(t<2.4){MAN.aL.rotation.z=.75;MAN.eL.rotation.z=-1.9;MAN.aR.rotation.z=-.75;MAN.eR.rotation.z=1.9;}
   if(t>=2.6){glance(MAN,env(t,2.6,3.5),1);talkM(MAN,T,t<3.15);o.bm=Ln(1);}
@@ -417,7 +583,7 @@ function scene(s,t,T){
 let mode='title',G=null,lastNow=performance.now(),Tsec=0;
 const show=id=>{for(const p of ['title','result','vidPanel'])$(p).hidden=p!==id;};
 function setSeg(s){G.seg=s;G.t=0;}
-function startGame(){ac();clearFx();G={say:1,seg:null,t:0,log:[{type:'intro'}],down:null,kind:null,sent:false};setSeg({type:'intro',say:1});mode='play';show(null);
+function startGame(){ac();buildCrowd();resetMood();murSet(.17);clearFx();$('bubG').hidden=true;$('telop').hidden=true;$('wipe').hidden=true;G={say:1,seg:null,t:0,log:[{type:'intro'}],down:null,kind:null,sent:false};setSeg({type:'intro',say:1});mode='play';show(null);
  $('hud').hidden=false;$('btnArea').hidden=false;$('skipBtn').hidden=false;resetBtns();updCnt(false);$('big').hidden=true;$('dark').style.opacity=0;}
 function updCnt(pop){$('hudCnt').textContent=t('cnt',{n:G.say});if(pop){$('hudCnt').classList.remove('pop');void $('hudCnt').offsetWidth;$('hudCnt').classList.add('pop');}}
 function waitSeg(){setSeg({type:'wait',n:G.say,say:G.say});$('skipBtn').hidden=true;jigT=0;}
@@ -429,7 +595,7 @@ const canAct=()=>mode==='play'&&G&&G.seg&&G.seg.type==='wait';
 function doNo(){if(!canAct())return;
  G.log.push({type:'wait',n:G.say,act:'no'});SFX.pop();
  const pb=$('pushBtn'),nb=$('noBtn');pb.classList.add('gone');nb.classList.add('morph');nb.textContent=t('push');setTimeout(resetBtns,300);
- if(G.say>=10){G.kind='bored';G.log.push({type:'out',kind:'bored'});setSeg({type:'out',kind:'bored',say:G.say});return;}
+ if(G.say>=10){$('btnArea').hidden=true;G.kind='bored';G.log.push({type:'out',kind:'bored'});setSeg({type:'out',kind:'bored',say:G.say});return;}
  if(G.say===3){G.log.push({type:'pushy'});setSeg({type:'pushy',say:3});return;}
  G.say++;updCnt(true);G.log.push({type:'line',n:G.say});setSeg({type:'line',n:G.say,say:G.say});}
 function doPush(ms){if(!canAct())return;
@@ -464,7 +630,9 @@ function bubAt(el,txt,pos,cls){if(!txt||!pos){el.hidden=true;el.dataset.t='';ret
  if(el.dataset.t!==txt){el.textContent=txt;el.dataset.t=txt;el.classList.remove('pop');void el.offsetWidth;el.classList.add('pop');}
  const w=el.offsetWidth||120;x=clamp(x,w/2+8,W-w/2-8);y=clamp(y,140,H-150);el.style.left=x+'px';el.style.top=y+'px';el.classList.toggle('angry',!!cls);}
 let bigShown='';
-function applyO(o){bubAt($('bubM'),o.bm,o.bm?headPos(MAN):null,o.angry);bubAt($('bubP'),o.bp,o.bp?headPos(ME):null,false);
+function applyO(o){bubAt($('bubM'),o.bm,o.bm?headPos(MAN):null,o.angry);bubAt($('bubP'),o.bp,o.bp?headPos(ME):null,false);bubAt($('bubG'),o.bg?o.bg[1]:null,o.bg?headPos(o.bg[0]?G2:G1):null,false);
+ const tl=$('telop');if(o.tel){if(tl.dataset.t!==o.tel){let em=0;for(const ch of o.tel)em+=ch.charCodeAt(0)<0x2e80?.6:1;tl.firstChild.style.fontSize=Math.max(20,Math.min(46,(innerWidth-40)/Math.max(1,em)))+'px';tl.firstChild.textContent=o.tel;tl.dataset.t=o.tel;tl.hidden=false;tl.classList.remove('pop');void tl.offsetWidth;tl.classList.add('pop');}}else if(!tl.hidden){tl.hidden=true;tl.dataset.t='';}
+ $('wipe').hidden=!o.wipe;
  const b=$('big');if(o.big){if(bigShown!==o.big){b.textContent=o.big;b.hidden=false;b.classList.remove('pop');void b.offsetWidth;b.classList.add('pop');bigShown=o.big;}}else{b.hidden=true;bigShown='';}
  $('dark').style.opacity=o.dark||0;}
 function fit(){const w=innerWidth,h=innerHeight;R3.setSize(w,h,false);fitFov(w/h);}
@@ -476,15 +644,18 @@ function frame(now){const dt=Math.min(.1,(now-lastNow)/1000);lastNow=now;
  if(mode==='play'||mode==='end'){const s=G.seg;const t0=G.t;if(mode==='play')G.t+=dt;fireEv(s,t0,G.t);const o=scene(s,Math.min(G.t,segDur(s)),Tsec);applyO(o);
   if(mode==='play'&&s.type==='wait'){jigT+=dt;if(jigT>4.5){jigT=0;if(!G.down&&off===0){pb.classList.remove('jig');void pb.offsetWidth;pb.classList.add('jig');}}}
   $('btnArea').classList.toggle('off',!(s.type==='wait'));
-  if(mode==='play'&&G.t>=segDur(s))nextSeg();}
- else if(mode==='result'){const o=scene(G.seg,segDur(G.seg),Tsec);applyO({...o,bm:null,bp:null,big:null,dark:0});}
- else{const o=scene(TITLE_SEG,0,Tsec);applyO({});}
- updFx(dt);R3.render(S3,cam);requestAnimationFrame(frame);}
+  if(mode==='play'&&G.t>=segDur(s))nextSeg();lastO=o;}
+ else if(mode==='result'){const o=scene(G.seg,segDur(G.seg),Tsec);applyO({...o,bm:null,bp:null,bg:null,big:null,tel:null,wipe:false,dark:0});lastO=null;}
+ else{const o=scene(TITLE_SEG,0,Tsec);applyO({});lastO=null;}
+ updCrowd(dt,Tsec);updBulbs(Tsec);updFx(dt);R3.render(S3,cam);
+ if(lastO&&lastO.wipe){const r=$('wipe').getBoundingClientRect();renderWipe(R3,r.left+4,innerHeight-r.bottom+4,r.width-8,r.height-8);}
+ requestAnimationFrame(frame);}
+let lastO=null;
 requestAnimationFrame(frame);
 
 // ===== 結果 =====
 let lastUp=false;
-function showResult(){mode='result';$('hud').hidden=true;$('btnArea').hidden=true;$('bubM').hidden=$('bubP').hidden=true;$('big').hidden=true;$('dark').style.opacity=0;
+function showResult(){mode='result';murSet(.07);$('hud').hidden=true;$('btnArea').hidden=true;$('bubM').hidden=$('bubP').hidden=$('bubG').hidden=true;$('telop').hidden=true;$('wipe').hidden=true;$('big').hidden=true;$('dark').style.opacity=0;
  const k=G.kind,g=GRADE[k];
  G.n=k==='bored'?10:sayAtEnd();
  $('rHead').textContent=t('head_'+k);$('rTitle').className='g'+g;$('rTitle').innerHTML='<small>'+esc(t('ttl'))+'</small>「'+esc(t('grades')[g])+'」';$('rLine').textContent=resLine(k,G.n);
@@ -495,7 +666,7 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',
 function postText(){return t('post',{line:resLine(G.kind,G.n),g:t('grades')[GRADE[G.kind]]})+'\n'+t('tags');}
 const once=(f)=>{let b=0;return (...a)=>{const n=Date.now();if(n-b<450)return;b=n;f(...a);};};
 $('againBtn').onclick=once(()=>startGame());
-$('topBtn').onclick=once(()=>{mode='title';show('title');loadCounts('tCounts',null);});
+$('topBtn').onclick=once(()=>{mode='title';murSet(.05);show('title');loadCounts('tCounts',null);});
 $('startBtn').onclick=once(()=>startGame());
 $('xBtn').onclick=()=>{if(!G||!G.kind)return;const u='https://x.com/intent/post?text='+encodeURIComponent(postText())+'&url='+encodeURIComponent(GAME_URL);const w=window.open(u,'_blank');if(!w)location.href=u;};
 $('vX').onclick=$('xBtn').onclick;
@@ -559,7 +730,7 @@ async function makeVideo(){
  const mime=types.find(x=>{try{return MediaRecorder.isTypeSupported(x)}catch(e){return false}})||'';vidExt=mime.includes('mp4')?'mp4':'webm';
  let rec;try{rec=new MediaRecorder(stream,mime?{mimeType:mime,videoBitsPerSecond:4e6}:{});}catch(e){done2(null);return;}
  const chunks=[];rec.ondataavailable=ev=>{if(ev.data&&ev.data.size)chunks.push(ev.data);};
- const segs=vSegs();clearFx();
+ const segs=vSegs();clearFx();resetMood();murSet(.17);
  const stopped=new Promise(r=>{rec.onstop=r;});rec.start(200);
  let si=0,st=0,lastF=performance.now(),T=0;const gr=t('grades')[GRADE[G.kind]];
  await new Promise(resolve=>{
@@ -568,11 +739,12 @@ async function makeVideo(){
    const fe=(q,x,y)=>{if(q.type!=='card')fireEv(q,x+(q.off||0),y+(q.off||0));};
    if(st>=s.d&&si<segs.length-1){fe(s,t0,s.d);si++;st=st-s.d;s=segs[si];fe(s,-.001,st);}else fe(s,t0,Math.min(st,s.d));
    const scS=s.type==='card'?{type:'out',kind:s.kind,say:s.say}:s.type==='wait'?{...s,press:s.act==='push'&&st>s.d-s.hold-.12?1:0}:s;
-   const o=scene(scS,s.type==='card'?D[s.kind]:Math.min(st,s.d)+(s.off||0),T);updFx(dt);
-   VR.render(S3,cam);g.clearRect(0,0,VW,VH);g.drawImage(VR.domElement,0,0,VW,VH);
+   const o=scene(scS,s.type==='card'?D[s.kind]:Math.min(st,s.d)+(s.off||0),T);updCrowd(dt,T);updBulbs(T);updFx(dt);
+   VR.render(S3,cam);const vw=o.wipe&&s.type!=='card';if(vw)renderWipe(VR,VW-206,VH-292,190,142);g.clearRect(0,0,VW,VH);g.drawImage(VR.domElement,0,0,VW,VH);
+   if(vw){g.strokeStyle='#fff';g.lineWidth=6;g.strokeRect(VW-209,147,196,148);}
    if(o.dark){g.fillStyle='rgba(0,0,0,'+o.dark+')';g.fillRect(0,0,VW,VH);}
    const txt=(s2,x,y)=>{g.strokeText(s2,x,y);g.fillText(s2,x,y);};g.textAlign='center';g.lineJoin='round';
-   if(s.type!=='card'){drawBub(g,o.bm,o.bm?headPos(MAN):null,VW,VH,o.angry,false);drawBub(g,o.bp,o.bp?headPos(ME):null,VW,VH,false,true);}
+   if(s.type!=='card'){drawBub(g,o.bm,o.bm?headPos(MAN):null,VW,VH,o.angry,false);drawBub(g,o.bp,o.bp?headPos(ME):null,VW,VH,false,true);if(o.bg)drawBub(g,o.bg[1],headPos(o.bg[0]?G2:G1),VW,VH,false,false);if(o.tel)drawTelop(g,o.tel,VW,VH);}
    g.lineWidth=8;g.strokeStyle='#000a';g.fillStyle='#fff';g.font='900 34px "Hiragino Maru Gothic ProN",system-ui,sans-serif';txt(t('hud'),VW/2,60);
    g.font='900 26px "Hiragino Maru Gothic ProN",system-ui,sans-serif';g.fillStyle='#ffd23a';txt(t('cnt',{n:s.say||1}),VW/2,104);
    if(s.type==='wait'){const a=s.act,k=st;
@@ -586,7 +758,7 @@ async function makeVideo(){
    g.lineWidth=6;g.strokeStyle='#000a';g.fillStyle='#fffc';g.font='700 22px system-ui,sans-serif';txt(GAME_URL.replace('https://',''),VW/2,VH-30);
    if(si===segs.length-1&&st>=s.d)resolve();else requestAnimationFrame(step);}
   requestAnimationFrame(step);});
- rec.stop();await stopped;try{bus.disconnect(dest);}catch(_){}
+ rec.stop();await stopped;murSet(.07);try{bus.disconnect(dest);}catch(_){}
  VR.dispose();fitFov(oldA);clearFx();mode=keep;
  done2(new Blob(chunks,{type:(mime||'video/webm').split(';')[0]}));
  function done2(blob){$('recBadge').hidden=true;mode='result';show('vidPanel');vidBlob=blob;
@@ -596,6 +768,8 @@ async function makeVideo(){
   $('vShare').hidden=!canShare;$('vSave').hidden=false;$('vMsg').textContent=canShare?t('vmade'):t('shareHint');
   $('vShare').onclick=async()=>{try{await navigator.share({files:[file],text:postText()+'\n'+GAME_URL});}catch(e){}};
   $('vSave').onclick=()=>{const a=document.createElement('a');a.href=url;a.download='osunayo_'+G.kind+'_'+G.n+'.'+vidExt;document.body.appendChild(a);a.click();a.remove();};}}
+function drawTelop(g,txt,W,H){g.save();g.translate(W/2,H-250);g.rotate(-3*Math.PI/180);let fs=58;const F=z=>'900 '+z+'px "Hiragino Maru Gothic ProN",system-ui,sans-serif';g.font=F(fs);while(g.measureText(txt).width>W-60&&fs>26){fs-=4;g.font=F(fs);}
+ g.textAlign='center';g.textBaseline='middle';g.lineJoin='round';g.lineWidth=fs*.42;g.strokeStyle='#1d1d1d';g.strokeText(txt,0,6);g.lineWidth=fs*.3;g.strokeStyle='#c8102e';g.strokeText(txt,0,0);g.fillStyle='#fff23a';g.fillText(txt,0,0);g.textBaseline='alphabetic';g.restore();}
 function wrapTxt(g,s,x,y,maxW,lh,txt){let line='',yy=y;for(const ch of s){if(g.measureText(line+ch).width>maxW&&line){txt(line,x,yy);line='';yy+=lh;}line+=ch;}if(line)txt(line,x,yy);}
 
 // ===== 言語・タイトル =====
@@ -608,7 +782,7 @@ function applyLang(){document.documentElement.lang=lang==='zh'?'zh-Hant':lang;do
  resetBtns();if(mode==='title')loadCounts('tCounts',null);}
 $('langs').onclick=e=>{const b=e.target.closest('button');if(!b)return;lang=b.dataset.l;ls.set('osn_lang',lang);applyLang();};
 applyLang();
-window.__osn={get G(){return G},get mode(){return mode},doNo,doPush,startGame,showResult};
+window.__osn={get G(){return G},get mode(){return mode},get calls(){return R3.info.render.calls},get crowd(){return CB?Object.fromEntries(Object.entries(CB).map(([k,b])=>{const d=b.getChannelData(0);let e=0;for(let i=0;i<d.length;i+=7)e+=d[i]*d[i];return [k,[+b.duration.toFixed(2),+Math.sqrt(e/(d.length/7)).toFixed(3)]];})):null},doNo,doPush,startGame,showResult};
 </script>
 </body>
 </html>
