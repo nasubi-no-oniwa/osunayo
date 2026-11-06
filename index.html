@@ -26,7 +26,7 @@
 html,body{height:100%;margin:0;background:#2a1a4a;color:var(--ink);font-family:"Hiragino Maru Gothic ProN","Rounded Mplus 1c",system-ui,sans-serif;overflow:hidden;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;overscroll-behavior:none;touch-action:none}
 #c{position:fixed;inset:0;width:100%;height:100%;display:block}
 #dark{position:fixed;inset:0;background:#000;opacity:0;pointer-events:none;z-index:2;transition:opacity .5s}
-#hud{position:fixed;left:0;right:0;top:calc(env(safe-area-inset-top,0px) + 8px);text-align:center;z-index:4;pointer-events:none}
+#hud{position:fixed;left:0;right:0;top:0;padding:calc(env(safe-area-inset-top,0px) + 6px) 0 16px;text-align:center;z-index:4;pointer-events:none;background:linear-gradient(#000c,#0007 65%,#0000)}
 #hudTitle{font-size:13px;font-weight:900;color:#fff;text-shadow:0 1px 2px #000a}
 #hudCnt{display:inline-block;margin-top:4px;font-size:17px;font-weight:900;color:#fff;background:#000a;border-radius:99px;padding:3px 14px;font-variant-numeric:tabular-nums}
 #hudCnt.pop{animation:pop .4s ease-out}
@@ -36,10 +36,10 @@ html,body{height:100%;margin:0;background:#2a1a4a;color:var(--ink);font-family:"
 .bub.angry{background:#ffe0dc;color:#b01c12}
 .bub.pop{animation:bpop .3s ease-out}
 @keyframes bpop{0%{transform:translate(-50%,-100%) scale(.4)}70%{transform:translate(-50%,-100%) scale(1.08)}100%{transform:translate(-50%,-100%) scale(1)}}
-#big{position:fixed;left:0;right:0;top:60%;text-align:center;font-size:58px;font-weight:900;color:#ffd23a;text-shadow:0 4px 0 #a0400a,0 0 18px #000a;z-index:7;pointer-events:none;line-height:1.1;padding:0 10px}
+#big{position:fixed;left:0;right:0;bottom:calc(env(safe-area-inset-bottom,0px) + 226px);white-space:nowrap;text-align:center;font-size:58px;font-weight:900;color:#ffd23a;text-shadow:0 4px 0 #a0400a,0 0 18px #000a;z-index:7;pointer-events:none;line-height:1.1;padding:0 10px}
 #big.pop{animation:pop .5s ease-out}
 @keyframes pop{0%{transform:scale(1.7);opacity:0}60%{transform:scale(.94);opacity:1}100%{transform:scale(1)}}
-#skipBtn{position:fixed;right:calc(env(safe-area-inset-right,0px) + 12px);top:calc(env(safe-area-inset-top,0px) + 10px);z-index:8;border:3px solid #1d1d1d;border-radius:99px;background:#fff;font:900 14px "Hiragino Maru Gothic ProN",system-ui,sans-serif;padding:7px 14px;box-shadow:0 3px 0 #0004;color:#1d1d1d}
+#skipBtn{position:fixed;right:calc(env(safe-area-inset-right,0px) + 12px);top:calc(env(safe-area-inset-top,0px) + 76px);z-index:8;border:3px solid #1d1d1d;border-radius:99px;background:#fff;font:900 14px "Hiragino Maru Gothic ProN",system-ui,sans-serif;padding:7px 14px;box-shadow:0 3px 0 #0004;color:#1d1d1d}
 #btnArea{position:fixed;left:0;right:0;bottom:calc(env(safe-area-inset-bottom,0px) + 34px);height:96px;z-index:6;pointer-events:none}
 #btnArea button{position:absolute;left:50%;top:0;width:136px;height:88px;margin-left:-68px;border:4px solid #1d1d1d;border-radius:22px;font:900 30px "Hiragino Maru Gothic ProN",system-ui,sans-serif;color:#fff;box-shadow:0 6px 0 #1d1d1d;pointer-events:auto;touch-action:none;padding:0}
 #pushBtn{background:var(--red);z-index:2;text-shadow:0 2px 0 #0005}
@@ -86,8 +86,9 @@ html,body{height:100%;margin:0;background:#2a1a4a;color:var(--ink);font-family:"
 #telop span{display:inline-block;font-weight:900;font-size:40px;white-space:nowrap;color:#fff23a;transform:rotate(-3deg);text-shadow:-3px -3px 0 #c8102e,3px -3px 0 #c8102e,-3px 3px 0 #c8102e,3px 3px 0 #c8102e,0 -4px 0 #c8102e,0 4px 0 #c8102e,-4px 0 0 #c8102e,4px 0 0 #c8102e,0 8px 0 #1d1d1d}
 #telop.pop span{animation:tpop .38s cubic-bezier(.2,1.7,.4,1)}
 @keyframes tpop{0%{transform:scale(.25) rotate(-12deg);opacity:0}100%{transform:scale(1) rotate(-3deg);opacity:1}}
-#wipe{position:fixed;right:calc(env(safe-area-inset-right,0px) + 10px);top:calc(env(safe-area-inset-top,0px) + 96px);width:34vw;max-width:190px;aspect-ratio:4/3;border:4px solid #fff;box-shadow:0 3px 10px #0008;z-index:5;pointer-events:none;border-radius:4px}
+#wipe{position:fixed;right:calc(env(safe-area-inset-right,0px) + 10px);top:calc(env(safe-area-inset-top,0px) + 100px);width:34vw;max-width:190px;aspect-ratio:4/3;border:4px solid #fff;box-shadow:0 3px 10px #0008;z-index:5;pointer-events:none;border-radius:4px}
 .bub.gaya{font-size:17px;padding:4px 10px;background:#fff6c8}
+@media (min-aspect-ratio:1/1){#wipe{right:auto;left:calc(env(safe-area-inset-left,0px) + 10px)}}
 #flash{position:fixed;inset:0;background:#fff;opacity:0;pointer-events:none;z-index:2}
 #gayaBtn{background:#ffc21a;color:#1d1d1d!important;font-size:19px!important;line-height:1.2;z-index:0}
 #gayaBtn:active{transform:translateY(4px);box-shadow:0 2px 0 #1d1d1d}
@@ -355,7 +356,7 @@ const tubW=STD(0xf6f6f2),tubR=STD(0xd8352a);
 S3.add(mesh(GEO.box,tubW,3.1,.95,.14,0,.475,TUB.z0-.07),mesh(GEO.box,tubW,3.1,.95,.14,0,.475,TUB.z1+.03),mesh(GEO.box,tubW,.14,.95,2.75,TUB.x0-.07,.475,(TUB.z0+TUB.z1)/2),mesh(GEO.box,tubW,.14,.95,2.75,TUB.x1+.07,.475,(TUB.z0+TUB.z1)/2));
 S3.add(mesh(GEO.box,tubR,3.14,.16,.16,0,.62,TUB.z0-.07),mesh(GEO.box,tubR,.16,.16,2.8,TUB.x1+.07,.62,(TUB.z0+TUB.z1)/2),mesh(GEO.box,tubR,.16,.16,2.8,TUB.x0-.07,.62,(TUB.z0+TUB.z1)/2));
 const tubSign=new THREE.MeshBasicMaterial({map:txTex(['熱湯'],256,128,'#ffffff','#d8352a','900 96px "Hiragino Maru Gothic ProN",system-ui,sans-serif')});
-{const a=new THREE.Mesh(GEO.pl,tubSign);a.scale.set(1.1,.5,1);a.position.set(0,.3,TUB.z0-.15);a.rotation.y=Math.PI;S3.add(a);const b=new THREE.Mesh(GEO.pl,tubSign);b.scale.set(1.1,.5,1);b.position.set(TUB.x1+.15,.3,-1.4);b.rotation.y=Math.PI/2;S3.add(b);}
+{const a=new THREE.Mesh(GEO.pl,tubSign);a.scale.set(1.1,.5,1);a.position.set(0,.3,TUB.z0-.15);a.rotation.y=Math.PI;S3.add(a);}
 S3.add(mesh(GEO.box,STD(0x8a2a10),2.9,.05,2.65,0,.06,(TUB.z0+TUB.z1)/2));
 const waterM=new THREE.MeshStandardMaterial({color:0xff7a4a,emissive:0x8a2a08,roughness:.2,transparent:true,opacity:.9});
 const water=mesh(GEO.box,waterM,2.9,.7,2.65,0,TUB.water-.35,(TUB.z0+TUB.z1)/2);S3.add(water);
@@ -841,16 +842,37 @@ document.addEventListener('dblclick',e=>e.preventDefault(),{passive:false});
 document.addEventListener('gesturestart',e=>e.preventDefault());
 
 // ===== 画面の更新 =====
-function bubAt(el,txt,pos,cls){if(!txt||!pos){el.hidden=true;el.dataset.t='';return;}const p=pos.clone().project(cam);if(p.z>1){el.hidden=true;return;}
- const W=innerWidth,H=innerHeight;let x=(p.x*.5+.5)*W,y=(-p.y*.5+.5)*H;el.hidden=false;
+// 吹き出し：まず頭の上の位置を決め、あとで上の帯・ワイプ・大きい文字・テロップ・ボタン・ほかの吹き出しと重ならない所へずらす
+function bubAt(el,txt,pos,cls){if(!txt||!pos){el.hidden=true;el.dataset.t='';el._prev=null;return;}const p=pos.clone().project(cam);if(p.z>1){el.hidden=true;el._prev=null;return;}
+ const W=innerWidth,H=innerHeight;el._x=(p.x*.5+.5)*W;el._y=(-p.y*.5+.5)*H;el.hidden=false;
  if(el.dataset.t!==txt){el.textContent=txt;el.dataset.t=txt;el.classList.remove('pop');void el.offsetWidth;el.classList.add('pop');}
- const w=el.offsetWidth||120;x=clamp(x,w/2+8,W-w/2-8);y=clamp(y,140,H-150);el.style.left=x+'px';el.style.top=y+'px';el.classList.toggle('angry',!!cls);}
+ el.classList.toggle('angry',!!cls);}
+function ovl(a,b){return Math.max(0,Math.min(a.r,b.r)-Math.max(a.l,b.l))*Math.max(0,Math.min(a.b,b.b)-Math.max(a.t,b.t));}
+// w,h：吹き出しの大きさ。x0,y0：しっぽの先。いちばん重ならない置き場所をえらぶ（前と同じ置き場所を少しひいきして、ちらつかないようにする）
+function placeBub(w,h,x0,y0,obs,W,H,prev){
+ const cx=x=>clamp(x,w/2+8,W-w/2-8),cy=y=>clamp(y,h+70,H-150);
+ const cand=[[0,0]];if(prev&&(prev[0]||prev[1]))cand.push(prev);
+ for(let k=1;k<=4;k++){cand.push([0,-k*(h+10)]);cand.push([0,k*(h+10)]);}
+ for(const dx of [-1,1])for(let k=0;k<=2;k++)cand.push([dx*(w*.6+24),-k*(h+10)]);
+ let best=null,bs=1e18;
+ for(const c of cand){const x=cx(x0+c[0]),y=cy(y0+c[1]);const R={l:x-w/2,t:y-h,r:x+w/2,b:y+12};let sc=0;for(const o of obs)sc+=ovl(R,o)*100;
+  sc+=Math.hypot(x-x0,y-y0)+(prev&&c===prev?-30:0);if(sc<bs){bs=sc;best={x,y,c,R};}}
+ return best;}
+function rectOf(el,pad){const r=el.getBoundingClientRect();return {l:r.left-pad,t:r.top-pad,r:r.right+pad,b:r.bottom+pad};}
+function layoutBubs(){const W=innerWidth,H=innerHeight,obs=[];
+ for(const id of ['hud','wipe','big','telop','skipBtn'])if(!$(id).hidden)obs.push(rectOf(id==='telop'||id==='big'?($(id).firstElementChild||$(id)):$(id),6));
+ if(!$('btnArea').hidden)for(const id of ['pushBtn','noBtn','gayaBtn'])obs.push(rectOf($(id),6));
+ for(const id of ['bubM','bubP','bubG']){const el=$(id);if(el.hidden||el._x==null)continue;const b=placeBub(el.offsetWidth,el.offsetHeight,el._x,el._y,obs,W,H,el._prev);el._prev=b.c;el.style.left=b.x+'px';el.style.top=b.y+'px';obs.push({l:b.R.l-6,t:b.R.t-6,r:b.R.r+6,b:b.R.b});}}
 let bigShown='';
-function applyO(o){bubAt($('bubM'),o.bm,o.bm?headPos(MAN):null,o.angry);bubAt($('bubP'),o.bp,o.bp?headPos(o.bpAt||ME):null,false);bubAt($('bubG'),o.bg?o.bg[1]:null,o.bg?headPos(o.bg[0]?G2:G1):null,false);
- const tl=$('telop');if(o.tel){if(tl.dataset.t!==o.tel){let em=0;for(const ch of o.tel)em+=ch.charCodeAt(0)<0x2e80?.6:1;tl.firstChild.style.fontSize=Math.max(20,Math.min(46,(innerWidth-40)/Math.max(1,em)))+'px';tl.firstChild.textContent=o.tel;tl.dataset.t=o.tel;tl.hidden=false;tl.classList.remove('pop');void tl.offsetWidth;tl.classList.add('pop');}}else if(!tl.hidden){tl.hidden=true;tl.dataset.t='';}
+function fitLine(el,txt,max,min,pad){let em=0;for(const ch of txt)em+=ch.charCodeAt(0)<0x2e80?.62:1;el.style.fontSize=Math.max(min,Math.min(max,(innerWidth-pad)/Math.max(1,em)))+'px';}
+function applyO(o){
+ const tl=$('telop');if(o.tel){if(tl.dataset.t!==o.tel){fitLine(tl.firstChild,o.tel,46,20,40);tl.firstChild.textContent=o.tel;tl.dataset.t=o.tel;tl.hidden=false;tl.classList.remove('pop');void tl.offsetWidth;tl.classList.add('pop');}}else if(!tl.hidden){tl.hidden=true;tl.dataset.t='';}
  $('wipe').hidden=!o.wipe;
- const b=$('big');if(o.big){if(bigShown!==o.big){b.textContent=o.big;b.hidden=false;b.classList.remove('pop');void b.offsetWidth;b.classList.add('pop');bigShown=o.big;}}else{b.hidden=true;bigShown='';}
- $('dark').style.opacity=o.dark||0;$('flash').style.opacity=o.flash||0;}
+ const b=$('big');if(o.big){if(bigShown!==o.big){fitLine(b,o.big,58,26,28);b.innerHTML='<span>'+esc(o.big)+'</span>';b.hidden=false;b.classList.remove('pop');void b.offsetWidth;b.classList.add('pop');bigShown=o.big;}}else{b.hidden=true;bigShown='';}
+ $('dark').style.opacity=o.dark||0;$('flash').style.opacity=o.flash||0;
+ const ga=o.bg?(o.bg[0]?G2:G1):null;
+ bubAt($('bubM'),o.bm,o.bm?headPos(MAN):null,o.angry);bubAt($('bubP'),o.bp,o.bp?headPos(o.bpAt||ME):null,false);bubAt($('bubG'),ga&&ga.g.visible?o.bg[1]:null,ga&&ga.g.visible?headPos(ga):null,false);
+ layoutBubs();}
 function fit(){const w=innerWidth,h=innerHeight;R3.setSize(w,h,false);fitFov(w/h);}
 addEventListener('resize',fit);fit();
 const TITLE_SEG={type:'title'};
@@ -936,6 +958,11 @@ function vSegs(){const out=[];let say=1;
   else if(e.type==='out')out.push({type:'out',kind:e.kind,say,side:e.side,d:D[e.kind]},{type:'card',kind:e.kind,say,d:2.2});}
  return out;}
 function rr(g,x,y,w,h,r){g.beginPath();g.roundRect(x,y,w,h,r);}
+function vBubs(g,L,obs,W,H){g.font='900 26px "Hiragino Maru Gothic ProN",system-ui,sans-serif';
+ for(const [txt,pos,cls,me] of L){const p=pos.clone().project(cam);if(p.z>1)continue;const w=Math.min(W-20,g.measureText(txt).width+28),h=42;
+  const b=placeBub(w,h,(p.x*.5+.5)*W,(-p.y*.5+.5)*H-6,obs,W,H,null);obs.push({l:b.R.l-6,t:b.R.t-6,r:b.R.r+6,b:b.R.b});const x=b.x,y=b.y;
+  g.fillStyle=cls?'#ffe0dc':me?'#dff0ff':'#fff';g.strokeStyle='#1d1d1d';g.lineWidth=4;rr(g,x-w/2,y-h,w,h,14);g.fill();g.stroke();g.beginPath();g.moveTo(x-8,y-2);g.lineTo(x,y+11);g.lineTo(x+8,y-2);g.fill();g.stroke();
+  g.fillStyle=cls?'#b01c12':'#1d1d1d';g.textAlign='center';g.textBaseline='middle';g.fillText(txt,x,y-h/2,W-30);g.textBaseline='alphabetic';}}
 function drawBub(g,txt,pos,W,H,cls,me){if(!txt||!pos)return;const p=pos.clone().project(cam);if(p.z>1)return;g.font='900 26px "Hiragino Maru Gothic ProN",system-ui,sans-serif';const w=Math.min(W-20,g.measureText(txt).width+28);
  const x=clamp((p.x*.5+.5)*W,w/2+10,W-w/2-10),y=clamp((-p.y*.5+.5)*H,190,H-170);
  g.fillStyle=cls?'#ffe0dc':me?'#dff0ff':'#fff';g.strokeStyle='#1d1d1d';g.lineWidth=4;rr(g,x-w/2,y-50,w,42,14);g.fill();g.stroke();g.beginPath();g.moveTo(x-8,y-9);g.lineTo(x,y+4);g.lineTo(x+8,y-9);g.fill();g.stroke();
@@ -970,14 +997,15 @@ async function makeVideo(){
    if(o.dark){g.fillStyle='rgba(0,0,0,'+o.dark+')';g.fillRect(0,0,VW,VH);}
    if(o.flash){g.fillStyle='rgba(255,255,255,'+o.flash+')';g.fillRect(0,0,VW,VH);}
    const txt=(s2,x,y)=>{g.strokeText(s2,x,y);g.fillText(s2,x,y);};g.textAlign='center';g.lineJoin='round';
-   if(s.type!=='card'){drawBub(g,o.bm,o.bm?headPos(MAN):null,VW,VH,o.angry,false);drawBub(g,o.bp,o.bp?headPos(o.bpAt||ME):null,VW,VH,false,!o.bpAt);if(o.bg)drawBub(g,o.bg[1],headPos(o.bg[0]?G2:G1),VW,VH,false,false);if(o.tel)drawTelop(g,o.tel,VW,VH);}
+   if(s.type!=='card'){if(o.tel)drawTelop(g,o.tel,VW,VH);const obs=[{l:0,t:0,r:VW,b:124}];if(vw)obs.push({l:VW-216,t:140,r:VW-6,b:302});if(o.big)obs.push({l:0,t:VH*.6-62,r:VW,b:VH*.6+26});if(o.tel)obs.push({l:0,t:VH-294,r:VW,b:VH-204});if(s.type==='wait')obs.push({l:0,t:VH-158,r:VW,b:VH-56});
+    const L=[];if(o.bm)L.push([o.bm,headPos(MAN),o.angry,false]);if(o.bp)L.push([o.bp,headPos(o.bpAt||ME),false,!o.bpAt]);if(o.bg){const ga=o.bg[0]?G2:G1;if(ga.g.visible)L.push([o.bg[1],headPos(ga),false,false]);}vBubs(g,L,obs,VW,VH);}
    g.lineWidth=8;g.strokeStyle='#000a';g.fillStyle='#fff';g.font='900 34px "Hiragino Maru Gothic ProN",system-ui,sans-serif';txt(t('hud'),VW/2,60);
    g.font='900 26px "Hiragino Maru Gothic ProN",system-ui,sans-serif';g.fillStyle='#ffd23a';txt(t(G.civ?'cntC':'cnt',{n:s.say||1}),VW/2,104);
    if(s.type==='wait'){const a=s.act,k=st;
     if(a==='no'){const sl=sm((k-.25)/.3);drawPill(g,VW,VH,t('no'),VW/2,'#2a6ad8',k>.7);if(k<.85)drawPill(g,VW,VH,t('push'),VW/2+sl*170,'#e8352a',false);}
     else if(a==='gaya'){const s1=sm((k-.15)/.3),s2=sm((k-.6)/.3);drawPill(g,VW,VH,t('gayaBtn'),VW/2,'#ffc21a',k>1.15,'#1d1d1d');drawPill(g,VW,VH,t('no'),VW/2-s2*165,'#2a6ad8',false);drawPill(g,VW,VH,t('push'),VW/2+s1*165,'#e8352a',false);}
     else drawPill(g,VW,VH,t('push'),VW/2,'#e8352a',k>s.d-s.hold-.12);}
-   if(o.big&&s.type!=='card'){g.fillStyle='#ffd23a';g.lineWidth=10;g.strokeStyle='#a0400a';g.font='900 78px "Hiragino Maru Gothic ProN",system-ui,sans-serif';txt(o.big,VW/2,VH*.66);}
+   if(o.big&&s.type!=='card'){g.fillStyle='#ffd23a';g.lineWidth=10;g.strokeStyle='#a0400a';let fz=78;const F=z=>'900 '+z+'px "Hiragino Maru Gothic ProN",system-ui,sans-serif';g.font=F(fz);while(g.measureText(o.big).width>VW-40&&fz>30){fz-=4;g.font=F(fz);}txt(o.big,VW/2,VH*.6);}
    if(s.type==='card'){const a=sm(st/.4);g.fillStyle='rgba(0,0,0,'+(.55*a)+')';g.fillRect(0,0,VW,VH);g.globalAlpha=a;g.lineWidth=8;g.strokeStyle='#000';
     g.fillStyle='#fff';g.font='900 26px "Hiragino Maru Gothic ProN",system-ui,sans-serif';txt(t('ttl'),VW/2,VH*.38);
     g.fillStyle=['#ffd23a','#7dff8a','#ff9a6a','#cccccc','#ff4a4a'][TIER[gid]];g.font='900 '+(gr.length>8?40:54)+'px "Hiragino Maru Gothic ProN",system-ui,sans-serif';txt('「'+gr+'」',VW/2,VH*.38+66);
