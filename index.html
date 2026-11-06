@@ -996,6 +996,7 @@ async function makeVideo(){
    if(vw){g.strokeStyle='#fff';g.lineWidth=6;g.strokeRect(VW-209,147,196,148);}
    if(o.dark){g.fillStyle='rgba(0,0,0,'+o.dark+')';g.fillRect(0,0,VW,VH);}
    if(o.flash){g.fillStyle='rgba(255,255,255,'+o.flash+')';g.fillRect(0,0,VW,VH);}
+   {const gb=g.createLinearGradient(0,0,0,136);gb.addColorStop(0,'rgba(0,0,0,.8)');gb.addColorStop(.65,'rgba(0,0,0,.45)');gb.addColorStop(1,'rgba(0,0,0,0)');g.fillStyle=gb;g.fillRect(0,0,VW,136);}
    const txt=(s2,x,y)=>{g.strokeText(s2,x,y);g.fillText(s2,x,y);};g.textAlign='center';g.lineJoin='round';
    if(s.type!=='card'){if(o.tel)drawTelop(g,o.tel,VW,VH);const obs=[{l:0,t:0,r:VW,b:124}];if(vw)obs.push({l:VW-216,t:140,r:VW-6,b:302});if(o.big)obs.push({l:0,t:VH*.6-62,r:VW,b:VH*.6+26});if(o.tel)obs.push({l:0,t:VH-294,r:VW,b:VH-204});if(s.type==='wait')obs.push({l:0,t:VH-158,r:VW,b:VH-56});
     const L=[];if(o.bm)L.push([o.bm,headPos(MAN),o.angry,false]);if(o.bp)L.push([o.bp,headPos(o.bpAt||ME),false,!o.bpAt]);if(o.bg){const ga=o.bg[0]?G2:G1;if(ga.g.visible)L.push([o.bg[1],headPos(ga),false,false]);}vBubs(g,L,obs,VW,VH);}
