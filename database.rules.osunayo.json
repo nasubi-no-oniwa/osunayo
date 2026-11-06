@@ -50,5 +50,20 @@
         ".validate": false
       }
     }
+  },
+  "c": {
+    ".read": true,
+    "$t": {
+      ".write": "auth != null && $t.matches(/^(all|dive|kuuki|both|clear|yari|fui|gaya|fly|ky|enjo)$/) && newData.isNumber() && newData.val() === (data.exists() ? data.val() : 0) + 1 && !data.parent().parent().child('u/' + auth.uid + '/' + $t).exists() && newData.parent().parent().child('u/' + auth.uid + '/' + $t).exists()"
+    }
+  },
+  "u": {
+    "$uid": {
+      ".read": "auth != null && auth.uid === $uid",
+      "$t": {
+        ".write": "auth != null && auth.uid === $uid && !data.exists() && newData.exists() && $t.matches(/^(all|dive|kuuki|both|clear|yari|fui|gaya|fly|ky|enjo)$/) && newData.parent().parent().parent().child('c/' + $t).val() === (data.parent().parent().parent().child('c/' + $t).exists() ? data.parent().parent().parent().child('c/' + $t).val() : 0) + 1",
+        ".validate": "newData.val() === now"
+      }
+    }
   }
 }

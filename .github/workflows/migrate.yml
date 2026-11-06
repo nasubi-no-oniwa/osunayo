@@ -1,0 +1,28 @@
+# 前の数え方の人数を、新しい数え方へ引き継ぐ（手で動かす。何回動かしても二重には数えない）
+name: 人数の引き継ぎ
+on:
+  workflow_dispatch:
+concurrency:
+  group: osunayo-migrate
+  cancel-in-progress: false
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: 道具を入れる
+        run: mkdir -p "$RUNNER_TEMP/x" && cd "$RUNNER_TEMP/x" && npm init -y >/dev/null && npm i google-auth-library@9 --silent
+      - name: 鍵を一時ファイルに書く
+        env:
+          SA: ${{ secrets.FT_GREEN_SERVICE_ACCOUNT }}
+        run: printf '%s' "$SA" > "$RUNNER_TEMP/sa.json"
+      - name: 引き継ぐ
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ runner.temp }}/sa.json
+        run: node tools/migrate.mjs
+      - name: 鍵を消す
+        if: always()
+        run: rm -f "$RUNNER_TEMP/sa.json"
