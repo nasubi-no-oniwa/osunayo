@@ -643,7 +643,8 @@ function extras(k,t,T,o){
   if(t>=2.15)manJump(G1,t-2.15,GP[0].x,GP[0].z,ALLJ[0][1],3.0);
   if(t>=2.45)manJump(G2,t-2.45,GP[1].x,GP[1].z,ALLJ[1][1],3.0);
   crewJump(CREW[3],t-2.75,ALLJ[2][1]);if(t>=2.75)for(const m of KB)m.visible=false;
-  crewJump(CREW[2],t-3.05,ALLJ[3][1]);crewJump(CREW[0],t-3.3,ALLJ[4][1]);crewJump(CREW[1],t-3.55,ALLJ[5][1]);}}
+  crewJump(CREW[2],t-3.05,ALLJ[3][1]);crewJump(CREW[0],t-3.3,ALLJ[4][1]);crewJump(CREW[1],t-3.55,ALLJ[5][1]);}
+ if(k==='yari'&&t>=.6)for(const m of KB)m.visible=false;}
 function scene0(s,t,T){
  const o={bm:null,bp:null,bpAt:null,angry:false,big:null,dark:0,flash:0,say:s.say||0};
  rest(MAN);rest(ME);dressME(null);ME.g.visible=false;hands.visible=false;hands.position.z=0;
@@ -690,9 +691,9 @@ function scene0(s,t,T){
   if(kk==='fui'&&t<.85)o.bm=tx('eh');
   return o;}
  if(k==='yari'){const u=t-.12;
-  if(t<2.3){const d=sm(ph(t,.6,2.3));setCam(V3(lerp(3.7,3.1,d),lerp(2.4,2.9,d),lerp(-.55,-1.6,d)),V3(0,lerp(1.2,1.4,d),lerp(-1.0,-4.2,d)),true);}
-  else setCam(V3(2.3,2.2,-2.5),V3(0,1.35,-5.0),true);
-  const P0=tipHip(.75,TOE),Wp=V3(0,.85,-1.45),Lp=V3(0,1.0,-5.05),YC=Math.atan2(-2.3,-2.5);
+  if(t<2.3){const d=sm(ph(t,.6,2.3));setCam(V3(lerp(3.7,.3,d),lerp(2.4,2.6,d),lerp(-.55,-2.2,d)),V3(0,lerp(1.2,1.3,d),lerp(-1.0,-5.0,d)),true);}
+  else setCam(V3(.3,2.6,-2.2),V3(0,1.3,-5.0),true);
+  const P0=tipHip(.75,TOE),Wp=V3(0,.85,-1.45),Lp=V3(0,1.0,-5.05),YC=Math.atan2(-.3,-2.8);
   if(u<.8){const r=clamp((u-.42)/.38,0,1);MAN.g.position.copy(arcPos(P0,V3(0,P0.y+.3,(P0.z+Wp.z)/2),Wp,r));MAN.g.rotation.x=-lerp(.75,1.6,r);flail(MAN,u,1.3);}
   else if(u<1.5){const r=(u-.8)/.7;MAN.g.position.copy(arcPos(Wp,V3(0,3.0,(Wp.z+Lp.z)/2),Lp,r));MAN.g.rotation.x=-(1.6+r*Math.PI*2);flail(MAN,u,1.6);MAN.mouth.scale.set(.06,.05,.012);if(u<1.1)o.bm=tx('hot')[0];}
   else if(u<2.1){MAN.g.position.set(0,.62,-5.05);MAN.g.rotation.x=-1.5;MAN.aL.rotation.z=1.4;MAN.aR.rotation.z=-1.4;MAN.lL.rotation.x=.3;}
