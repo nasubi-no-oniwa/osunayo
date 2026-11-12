@@ -182,6 +182,13 @@ if(document.body)go();else document.addEventListener('DOMContentLoaded',go);
 <div id="recBadge" hidden></div>
 
 <script type="module">
+
+// Xの投稿で引用するツイート（なすびのお庭の管理ページ quote/ で日本語・英語を貼りかえられる）
+var NQ=window.__nq||(window.__nq={q:{}});if(!NQ.f){NQ.f=1;fetch('https://ft-red-default-rtdb.asia-southeast1.firebasedatabase.app/xquote/g/osunayo.json').then(r=>r.json()).then(d=>{if(d&&typeof d==='object')NQ.q=d;}).catch(()=>{});}
+function quoteURL(){let l='';try{if(typeof lang==='string')l=lang;}catch(e){}if(!l)l=document.documentElement.lang||'ja';const u=(l.slice(0,2)==='ja'?NQ.q.ja:NQ.q.en)||'';return /^https:\/\/x\.com\/[A-Za-z0-9_]{1,15}\/status\/\d{5,25}$/.test(u)?u:'';}
+function xIntent(text,url){const q=quoteURL();return 'https://x.com/intent/post?text='+encodeURIComponent(q?text+'\n'+url:text)+'&url='+encodeURIComponent(q||url);}
+function xIntentT(text){const q=quoteURL();return 'https://x.com/intent/post?text='+encodeURIComponent(text)+(q?'&url='+encodeURIComponent(q):'');}
+function nqS(o){const q=quoteURL();if(!q||!o)return o;o=Object.assign({},o);o.text=(o.text||'')+(o.url?'\n'+o.url:'')+'\n'+q;delete o.url;return o;}
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
 const $=id=>document.getElementById(id);
 const ls={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
@@ -952,7 +959,7 @@ const once=(f)=>{let b=0;return (...a)=>{const n=Date.now();if(n-b<450)return;b=
 $('againBtn').onclick=once(()=>startGame());
 $('topBtn').onclick=once(()=>{mode='title';murSet(.05);show('title');loadCounts('tCounts',null);});
 $('startBtn').onclick=once(()=>startGame());
-$('xBtn').onclick=()=>{if(!G||!G.kind)return;const u='https://x.com/intent/post?text='+encodeURIComponent(postText())+'&url='+encodeURIComponent(GAME_URL);const w=window.open(u,'_blank');if(!w)location.href=u;};
+$('xBtn').onclick=()=>{if(!G||!G.kind)return;const u=xIntent(postText(),GAME_URL);const w=window.open(u,'_blank');if(!w)location.href=u;};
 $('vX').onclick=$('xBtn').onclick;
 
 // ===== 称号の人数（Firebase：ft-green の osunayo の下） =====
@@ -1063,7 +1070,7 @@ async function makeVideo(){
   const url=URL.createObjectURL(blob);$('vidPrev').src=url;$('vidPrev').play().catch(()=>{});
   const file=new File([blob],'osunayo.'+vidExt,{type:blob.type});const canShare=!!(navigator.canShare&&navigator.canShare({files:[file]}));
   $('vShare').hidden=!canShare;$('vSave').hidden=false;$('vMsg').textContent=canShare?t('vmade'):t('shareHint');
-  $('vShare').onclick=async()=>{try{await navigator.share({files:[file],text:postText()+'\n'+GAME_URL});}catch(e){}};
+  $('vShare').onclick=async()=>{try{await navigator.share(nqS({files:[file],text:postText()+'\n'+GAME_URL}));}catch(e){}};
   $('vSave').onclick=()=>{const a=document.createElement('a');a.href=url;a.download='osunayo_'+G.kind+'_'+G.n+'.'+vidExt;document.body.appendChild(a);a.click();a.remove();};}}
 function drawTelop(g,txt,W,H){g.save();g.translate(W/2,H-250);g.rotate(-3*Math.PI/180);let fs=58;const F=z=>'900 '+z+'px "Hiragino Maru Gothic ProN",system-ui,sans-serif';g.font=F(fs);while(g.measureText(txt).width>W-60&&fs>26){fs-=4;g.font=F(fs);}
  g.textAlign='center';g.textBaseline='middle';g.lineJoin='round';g.lineWidth=fs*.42;g.strokeStyle='#1d1d1d';g.strokeText(txt,0,6);g.lineWidth=fs*.3;g.strokeStyle='#c8102e';g.strokeText(txt,0,0);g.fillStyle='#fff23a';g.fillText(txt,0,0);g.textBaseline='alphabetic';g.restore();}
